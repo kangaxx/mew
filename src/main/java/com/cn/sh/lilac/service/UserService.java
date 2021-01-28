@@ -4,6 +4,9 @@ import com.cn.sh.lilac.model.User;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
 
+/**
+ * @author gxx
+ */
 public interface UserService {
 
     /**

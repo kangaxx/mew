@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>用户管理页</title>
+    <title>员工管理页</title>
     <!-- jqgrid ui -->
     <link href="plugins/jqgrid-5.3.0/ui.jqgrid-bootstrap4.css" rel="stylesheet"/>
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.css">
@@ -138,12 +138,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">用户管理页</h1>
+                        <h1 class="m-0 text-dark">员工管理页</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="index.html">主页</a></li>
-                            <li class="breadcrumb-item active">用户管理页</li>
+                            <li class="breadcrumb-item active">员工管理页</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -157,10 +157,10 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="grid-btn">
-                                <button class="btn btn-info" onclick="userAdd()">
+                                <button class="btn btn-info" onclick="employeeAdd()">
                                     <i class="fa fa-plus">新增</i>
                                 </button>
-                                <button class="btn btn-warning" onclick="userEdit()"><i
+                                <button class="btn btn-warning" onclick="employeeEdit()"><i
                                         class="fa fa-edit"></i>&nbsp;编辑
                                 </button>
                             </div>
@@ -184,7 +184,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h6 class="modal-title" id="modalAddTitle">用户添加</h6>
+                        <h6 class="modal-title" id="modalAddTitle">员工添加</h6>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -192,12 +192,16 @@
                                 <div class="alert alert-danger add-error-info">错误信息展示栏。</div>
                             </div>
                             <div class="form-group">
-                                <label for="userName" class="control-label">用户名:</label>
-                                <input type="text" class="form-control" id="userName" autocomplete="off">
+                                <label for="employeeName" class="control-label">姓名:</label>
+                                <input type="text" class="form-control" id="employeeName" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <label for="password" class="control-label">密码:</label>
-                                <input type="text" class="form-control" id="password">
+                                <label for="account" class="control-label">账户余额(rmb):</label>
+                                <input type="text" class="form-control" id="account">
+                            </div>
+                            <div class="form-group">
+                                <label for="income" class="control-label">每月进项(rmb):</label>
+                                <input type="text" class="form-control" id="income">
                             </div>
                         </form>
                     </div>
@@ -219,14 +223,22 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h6 class="modal-title" id="modalEditTitle">密码编辑</h6>
+                        <h6 class="modal-title" id="modalEditTitle">信息编辑</h6>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <input type="hidden" id="userId" value="0">
+                            <input type="hidden" id="employeeId" value="0">
                             <div class="form-group">
-                                <label for="passwordEdit" class="control-label">新密码:</label>
-                                <input type="text" class="form-control" id="passwordEdit">
+                                <label for="employeeNameEdit" class="control-label">姓名:</label>
+                                <input type="text" class="form-control" id="employeeNameEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="accountEdit" class="control-label">账户余额:</label>
+                                <input type="text" class="form-control" id="accountEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="incomeEdit" class="control-label">每月进项:</label>
+                                <input type="text" class="form-control" id="incomeEdit">
                             </div>
                         </form>
                     </div>
@@ -271,11 +283,13 @@
             $('.alert-danger').css("display", "none");
 
             $("#jqGrid").jqGrid({
-                url: 'users/list',
+                url: 'employees/list',
                 datatype: "json",
                 colModel: [
                     {label: 'id', name: 'id', index: 'id', width: 50, hidden: true, key: true},
-                    {label: '登录名', name: 'userName', index: 'userName', sortable: false, width: 80},
+                    {label: '姓名', name: 'employeeName', index: 'employeeName', sortable: false, width: 80},
+                    {label: '账户余额', name: 'account', index: 'account', sortable: false, width: 80},
+                    {label: '每月进项', name: 'income', index: 'income', sortable: false, width: 80},
                     {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
                 ],
                 height: 485,
@@ -310,12 +324,12 @@
             });
         });
 
-        function userAdd() {
+        function employeeAdd() {
             reset();
             $("#modalAdd").modal('show');
         }
 
-        function userEdit() {
+        function employeeEdit() {
             reset();
             //获取到当前需要修改的记录的主键
             var grid = $("#jqGrid");
@@ -329,20 +343,21 @@
                 alert("只能选择选择一条记录");
                 return;
             }
-            var userId = selectIDs[0];
-            $("#userId").val(userId);
+            var employeeId = selectIDs[0];
+            $("#employeeId").val(employeeId);
             //modal框给显示出来
             $("#modalEdit").modal('show');
         }
 
         $('#saveButton').click(function () {
-            var userName = $('#userName').val();
-            var password = $('#password').val();
-            var data = {"userName": userName, "password": password};
+            var employeeName = $('#employeeName').val();
+            var account = $('#account').val();
+            var income = $('#income').val();
+            var data = {"employeeName": employeeName, "account": account, "income": income};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: 'users/save',//url
+                url: 'employees/save',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {
@@ -362,13 +377,15 @@
             });
         })
         $('#editButton').click(function () {
-            var userId = $('#userId').val();
-            var password = $('#passwordEdit').val();
-            var data = {"id": userId, "password": password};
+            var employeeId = $('#employeeId').val();
+            var employeeName = $('#employeeNameEdit').val();
+            var account = $('#accountEdit').val();
+            var income = $('#incomeEdit').val();
+            var data = {"id": employeeId, "employeeName": employeeName, "account": account, "income": income};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: 'users/updatePassword',//url
+                url: 'employees/update',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {

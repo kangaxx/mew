@@ -24,7 +24,7 @@
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">SpringBoot前后端分离项目实践</p>
+      <p class="login-box-msg">小鼠抓药管理系统</p>
 
       <form action="##" onsubmit="return false;" method="post">
         <div class="form-group has-feedback">
@@ -75,7 +75,7 @@
           success: function (result) {
               if (result.resultCode == 200) {
                   setCookie("token",result.data.userToken);
-                  window.location.href = "/";
+                  window.location.href = "/employee.html";
               }
               ;
               if (result.resultCode == 500) {
