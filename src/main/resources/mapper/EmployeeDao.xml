@@ -47,4 +47,6 @@
     <update id="update">
         update tb_employee set employee_name = #{newEmployeeName}, account = #{newAccount}, income = #{newIncome} where id = #{employeeId} and is_deleted = 0
     </update>
+
+    <update id="stopUse"> update tb_employee set is_deleted = 1 where id = #{employeeId} and is_deleted = 0</update>
 </mapper>

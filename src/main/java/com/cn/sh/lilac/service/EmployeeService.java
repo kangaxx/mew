@@ -43,4 +43,8 @@ public interface EmployeeService {
      */
     Employee selectEmployeeByName(String name);
 
+    /**
+     * 停用员工（但不会删除）
+     */
+    int stopUse(Employee employee);
 }

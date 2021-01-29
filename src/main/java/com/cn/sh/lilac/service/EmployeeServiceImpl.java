@@ -65,7 +65,7 @@ public class EmployeeServiceImpl implements  EmployeeService{
 
 
     /**
-     * 根据姓名查询用户
+     * 根据姓名查询员工
      *
      * @param name
      * @return
@@ -73,5 +73,16 @@ public class EmployeeServiceImpl implements  EmployeeService{
     @Override
     public Employee selectEmployeeByName(String name) {
         return employeeDao.getEmployeeByEmployeeName(name);
+    }
+
+    /**
+     * 停用员工
+     *
+     * @param employee
+     * @return
+     */
+    @Override
+    public int stopUse(Employee employee) {
+        return employeeDao.stopUse(employee.getId());
     }
 }

@@ -60,12 +60,25 @@ public class EmployeeController {
             return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常，缺少余额");
         }
 
-        //修改数据库
+        //修改数据
         if (employeeService.update(employee) > 0) {
             return ResultGenerator.genSuccessResult();
         } else {
             return ResultGenerator.genFailResult("修改失败");
         }
+    }
 
+    @PostMapping(value = "/stopUse")
+    public Result employeeStopUse(@RequestBody Employee employee){
+        if (employee.getId() == null){
+            return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常，缺少ID");
+        }
+
+        //修改数据
+        if (employeeService.stopUse(employee) > 0) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult("修改失败");
+        }
     }
 }

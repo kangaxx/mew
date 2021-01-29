@@ -32,4 +32,9 @@ public interface EmployeeDao {
      * @return
      */
     int update(@Param("employeeId") Long employeeId, @Param("newEmployeeName") String employeeName, @Param("newAccount") BigDecimal newAccount, @Param("newIncome") BigDecimal newIncome);
+
+    /**
+     * 删除账户信息(停用)
+     */
+    int stopUse(@Param("employeeId") Long employeeId);
 }

@@ -163,6 +163,9 @@
                                 <button class="btn btn-warning" onclick="employeeEdit()"><i
                                         class="fa fa-edit"></i>&nbsp;编辑
                                 </button>
+                                <button class="btn btn-danger" onclick="employeeDelete()"><i
+                                        class="fa fa-times"></i>&nbsp;删除
+                                </button>
                             </div>
                             <!-- 数据展示列表，id 为 jqGrid -->
                             <table id="jqGrid" class="table table-bordered">
@@ -196,11 +199,11 @@
                                 <input type="text" class="form-control" id="employeeName" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <label for="account" class="control-label">账户余额(rmb):</label>
+                                <label for="account" class="control-label">账户余额(￥):</label>
                                 <input type="text" class="form-control" id="account">
                             </div>
                             <div class="form-group">
-                                <label for="income" class="control-label">每月进项(rmb):</label>
+                                <label for="income" class="control-label">每月进项(￥):</label>
                                 <input type="text" class="form-control" id="income">
                             </div>
                         </form>
@@ -233,11 +236,11 @@
                                 <input type="text" class="form-control" id="employeeNameEdit">
                             </div>
                             <div class="form-group">
-                                <label for="accountEdit" class="control-label">账户余额:</label>
+                                <label for="accountEdit" class="control-label">账户余额(￥):</label>
                                 <input type="text" class="form-control" id="accountEdit">
                             </div>
                             <div class="form-group">
-                                <label for="incomeEdit" class="control-label">每月进项:</label>
+                                <label for="incomeEdit" class="control-label">每月进项(￥):</label>
                                 <input type="text" class="form-control" id="incomeEdit">
                             </div>
                         </form>
@@ -345,8 +348,52 @@
             }
             var employeeId = selectIDs[0];
             $("#employeeId").val(employeeId);
+            var rowData = $("#jqGrid").jqGrid("getRowData", rowKey);
+            $("#employeeNameEdit").val(rowData.employeeName);
+            $("#accountEdit").val(rowData.account);
+            $("#incomeEdit").val(rowData.income);
             //modal框给显示出来
             $("#modalEdit").modal('show');
+        }
+
+        function employeeDelete(){
+            var grid = $("#jqGrid");
+            var rowKey = grid.getGridParam("selrow");
+            if (!rowKey) {
+                alert("请选择一条记录");
+                return;
+            }
+            var selectIDs = grid.getGridParam("selarrrow");
+            if (selectIDs.length > 1) {
+                alert("只能选择选择一条记录");
+                return;
+            }
+            var rowData = $("#jqGrid").jqGrid("getRowData", rowKey);
+            var employeeId = rowData.id;
+            var employeeName = rowData.employeeName;
+            var account = rowData.account;
+            var income = rowData.income;
+            var data = {"id": employeeId, "employeeName": employeeName, "account": account, "income": income};
+            $.ajax({
+                type: 'POST',//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: 'employees/stopUse',//url
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.resultCode == 200) {
+                        alert("删除成功");
+                        reload();
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                    ;
+                },
+                error: function () {
+                    alert("操作失败");
+                }
+            });
         }
 
         $('#saveButton').click(function () {
