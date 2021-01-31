@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
 import java.util.Date;
 
+/**
+ * @author gxx
+ */
+
 public class Employee {
-    /*
-    pk
+    /**
+     * pk
      */
     private Long id;
 

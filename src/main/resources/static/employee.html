@@ -166,6 +166,11 @@
                                 <button class="btn btn-danger" onclick="employeeDelete()"><i
                                         class="fa fa-times"></i>&nbsp;删除
                                 </button>
+                                <button class="btn btn-upload" style="margin-top: 20px">
+                                    <a data-toggle="modal" href="#uploadExcel" role="button" style="color: black; text-decoration: none">
+                                        批量添加<sapn class="glyphicon glyphicon-plus"/>
+                                    </a>
+                                </button>
                             </div>
                             <!-- 数据展示列表，id 为 jqGrid -->
                             <table id="jqGrid" class="table table-bordered">
@@ -179,6 +184,17 @@
         </div>
     </div>
 
+    <!--批量添加模态框-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="uploadExcel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/employees/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file">
+                    <input type="submit" value="文件上传">
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="content">
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAddLabel">
@@ -256,7 +272,7 @@
 
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-            <strong>Copyright &copy; 2021 <a href="##">13blog.site</a>.</strong>
+            <strong>Copyright &copy; 2021 </strong>
             All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 2.0
