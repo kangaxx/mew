@@ -1,7 +1,6 @@
 package com.cn.sh.lilac.service;
 
 import com.cn.sh.lilac.model.Employee;
-import com.cn.sh.lilac.model.User;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
 

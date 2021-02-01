@@ -28,6 +28,10 @@
         select id, employee_name, account, income, create_time
         from tb_employee
         where is_deleted = 0
+        order by id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
     </select>
 
     <select id="getTotalEmployee" parameterType="Map" resultType="int">

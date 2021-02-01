@@ -14,7 +14,21 @@ public class Drug {
      * pk
      */
     private Long drugId;
+    /**
+     * 通用名
+     */
     private String drugName;
+
+    /**
+     * 商品名
+     */
+    private String drugTradeName;
+
+
+    /**
+     * 药品规格
+     */
+    private String drugPackage;
 
     /**
      * 商品编号
@@ -29,12 +43,12 @@ public class Drug {
     /**
      * 药品规格
      */
-    private String unit;
+    private String drugUnit;
 
     /**
      * 单价
      */
-    private BigDecimal price;
+    private BigDecimal drugPrice;
 
     /**
      * 药品有效期
@@ -52,11 +66,18 @@ public class Drug {
      */
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
+
     public void setDrugId(Long drugId) { this.drugId = drugId; }
     public Long getDrugId() { return this.drugId; }
 
     public void setDrugName(String drugName) { this.drugName = drugName; }
     public String getDrugName() { return this.drugName; }
+
+    public void setDrugTradeName(String drugTradeName) { this.drugTradeName = drugTradeName; }
+    public String getDrugTradeName(){ return this.drugTradeName; }
+
+    public void setDrugPackage(String drugPackage) { this.drugPackage = drugPackage; }
+    public String getDrugPackage() { return this.drugPackage; }
 
     public void setDrugNo(String drugNo) { this.drugNo = drugNo; }
     public String getDrugNo() { return drugNo; }
@@ -64,11 +85,11 @@ public class Drug {
     public void setManufactureId(Long manufactureId) { this.manufactureId = manufactureId; }
     public Long getManufactureId() { return this.manufactureId; }
 
-    public void setUnit(String unit) { this.unit = unit; }
-    public String getUnit() { return this.unit; }
+    public void setDrugUnit(String drugUnit) { this.drugUnit = drugUnit; }
+    public String getDrugUnit() { return this.drugUnit; }
 
-    public void setPrice(BigDecimal price) { this.price = price; }
-    public BigDecimal getPrice() { return this.price; }
+    public void setDrugPrice(BigDecimal drugPrice) { this.drugPrice = drugPrice; }
+    public BigDecimal getDrugPrice() { return this.drugPrice; }
 
     public void setDrugDuration(Date drugDuration) { this.drugDuration = drugDuration; }
     public Date getDrugDuration() { return this.drugDuration; }
@@ -88,9 +109,11 @@ public class Drug {
         return "drug{" +
                 "drug_id = '" + drugId + '\'' +
                 "drug_name = '" + drugName + '\'' +
+                "drug_name = '" + drugName + '\'' +
                 "drug_no = '" + drugNo + '\'' +
                 "manufacture_id = '" + manufactureId + '\'' +
-                "unit = '" + unit + '\'' +
+                "drug_unit = '" + drugUnit + '\'' +
+                "drug_price = " + drugPrice +
                 "drug_duration = '" + drugDuration + '\'' +
                 "is_deleted = '" + isDeleted + '\'' +
                 "createTime = '" + createTime + '\'' +
