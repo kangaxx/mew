@@ -16,11 +16,24 @@ INSERT  INTO `tb_admin_user`(`id`,`user_name`,`password_md5`,`user_token`,`is_de
 
 DROP TABLE IF EXISTS `tb_employee`;
 CREATE TABLE tb_employee (`id` int auto_increment,
-	`employee_name` varchar(10) not null unique,
-	`account` decimal(14,6) default 0.0,
-	`income` decimal(14,6) default 0.0,
+	`employee_name` varchar(10) NOT NULL UNIQUE,
+	`account` decimal(14,6) DEFAULT 0.0,
+	`income` decimal(14,6) DEFAULT 0.0,
 	`is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已删除 0未删除 1已删除',
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
 	PRIMARY KEY (`id`),
 	INDEX `idx_employee_employee_name` (`employee_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='员工表';
+
+DROP TABLE IF EXISTS `tb_drug`;
+CREATE TABLE tb_drug (`drug_id` int AUTO_INCREMENT,
+	`drug_name` varchar(20) NOT NULL UNIQUE,
+	`drug_no` varchar(20) NULL,
+	`manufacture_id` int NULL,
+    `unit` varchar(12) NOT NULL;
+    `drug_duration` datetime NOT NULL COMMENT '有效期',
+	`is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已删除 0未删除 1已删除',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+	PRIMARY KEY (`drug_id`),
+	INDEX `idx_drug_drug_name` (`drug_name`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='药品信息表';

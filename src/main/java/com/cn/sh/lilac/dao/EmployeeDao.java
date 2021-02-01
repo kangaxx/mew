@@ -7,6 +7,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author gxx
+ * @date 20200201
+ */
+
 public interface EmployeeDao {
     Employee getEmployeeByEmployeeName(@Param("employeeName") String employeeName);
     Employee getEmployeeById(@Param("employeeId") Long employeeId);

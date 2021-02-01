@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.sh.lilac.dao.DrugDao">
+    <resultMap type="com.cn.sh.lilac.model.Drug" id="DrugResult">
+        <id property="drugId" column="drug_id" jdbcType="BIGINT"/>
+        <result property="drugName" column="drug_name" jdbcType="VARCHAR"/>
+        <result property="drugNo" column="drug_no" jdbcType="VARCHAR"/>
+        <result property="manufactureId" column="manufacture_id" jdbcType="BIGINT"/>
+        <result property="unit" column="unit" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+        <result property="drugDuration" column="drug_duration" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <insert id="addDrug">
+        insert into tb_drug(drug_name, drug_no, unit, price, drug_duration)
+        values(#{drug_name}, #{drug_no}, #{unit}, #{price}, #{drug_duration})
+    </insert>
+    <select id="getDrugByDrugName" resultType="DrugResult">
+        select drug_id, drug_name, drug_no, unit, price, drug_duration from tb_drug
+        where drug_name = #{drugName}
+        and is_deleted = 0;
+    </select>
+    <select id="getDrugByDrugId" resultType="DrugResult">
+        select drug_id, drug_name, drug_no, unit, price, drug_duration from tb_drug
+        where drug_id = #{drugId}
+        and is_deleted = 0;
+    </select>
+    <update id="update">
+        update tb_drug set drug_name = #{newDrugName}, drugNo = #{newDrugNo}, unit = #{newUnit}, price = #{newPrice}, drugDuration = #{newDrugDuration}
+        where drug_id = #{drugId} and is_deleted = 0
+    </update>
+
+</mapper>
