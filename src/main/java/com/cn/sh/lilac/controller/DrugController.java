@@ -60,9 +60,6 @@ public class DrugController {
             return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "请填写药品价格！");
         }
 
-        if (!StringUtils.hasLength(drug.getDrugDuration().toString())) {
-            return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "请填写药品期限！");
-        }
         //不允许添加同名的员工，目前规定如此
         Drug tmpDrug = drugService.selectDrugByName(drug.getDrugName());
         if (tmpDrug != null) {
@@ -92,10 +89,6 @@ public class DrugController {
 
         if (!StringUtils.hasLength(drug.getDrugPrice().toString())) {
             return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "请填写药品价格！");
-        }
-
-        if (!StringUtils.hasLength(drug.getDrugDuration().toString())) {
-            return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "请填写药品期限！");
         }
 
         //修改数据

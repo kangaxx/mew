@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>员工管理页</title>
+    <title>药品信息页</title>
     <!-- jqgrid ui -->
     <link href="plugins/jqgrid-5.3.0/ui.jqgrid-bootstrap4.css" rel="stylesheet"/>
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.css">
@@ -101,12 +101,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">员工管理页</h1>
+                        <h1 class="m-0 text-dark">药品信息页</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="index.html">主页</a></li>
-                            <li class="breadcrumb-item active">员工管理页</li>
+                            <li class="breadcrumb-item active">药品信息页</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -120,13 +120,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="grid-btn">
-                                <button class="btn btn-info" onclick="employeeAdd()">
+                                <button class="btn btn-info" onclick="drugAdd()">
                                     <i class="fa fa-plus">新增</i>
                                 </button>
-                                <button class="btn btn-warning" onclick="employeeEdit()"><i
+                                <button class="btn btn-warning" onclick="drugEdit()"><i
                                         class="fa fa-edit"></i>&nbsp;编辑
                                 </button>
-                                <button class="btn btn-danger" onclick="employeeDelete()"><i
+                                <button class="btn btn-danger" onclick="drugDelete()"><i
                                         class="fa fa-times"></i>&nbsp;删除
                                 </button>
                                 <button class="btn btn-upload" style="margin-top: 20px">
@@ -151,7 +151,7 @@
     <div class="modal fade" tabindex="-1" role="dialog" id="uploadExcel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="/employees/upload" method="post" enctype="multipart/form-data">
+                <form action="/drugs/upload" method="post" enctype="multipart/form-data">
                     <input type="file" name="file">
                     <input type="submit" value="文件上传">
                 </form>
@@ -166,7 +166,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h6 class="modal-title" id="modalAddTitle">员工添加</h6>
+                        <h6 class="modal-title" id="modalAddTitle">药品添加</h6>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -174,16 +174,24 @@
                                 <div class="alert alert-danger add-error-info">错误信息展示栏。</div>
                             </div>
                             <div class="form-group">
-                                <label for="employeeName" class="control-label">姓名:</label>
-                                <input type="text" class="form-control" id="employeeName" autocomplete="off">
+                                <label for="drugName" class="control-label">药品名:</label>
+                                <input type="text" class="form-control" id="drugName" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <label for="account" class="control-label">账户余额(￥):</label>
-                                <input type="text" class="form-control" id="account">
+                                <label for="drugTradeName" class="control-label">商品名</label>
+                                <input type="text" class="form-control" id="drugTradeName">
                             </div>
                             <div class="form-group">
-                                <label for="income" class="control-label">每月进项(￥):</label>
-                                <input type="text" class="form-control" id="income">
+                                <label for="drugNo" class="control-label">药品编号:</label>
+                                <input type="text" class="form-control" id="drugNo">
+                            </div>
+                            <div class="form-group">
+                                <label for="drugUnit" class="control-label">单位:</label>
+                                <input type="text" class="form-control" id="drugUnit">
+                            </div>
+                            <div class="form-group">
+                                <label for="drugPrice" class="control-label">售价:</label>
+                                <input type="text" class="form-control" id="drugPrice">
                             </div>
                         </form>
                     </div>
@@ -209,18 +217,26 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <input type="hidden" id="employeeId" value="0">
+                            <input type="hidden" id="drugId" value="0">
                             <div class="form-group">
-                                <label for="employeeNameEdit" class="control-label">姓名:</label>
-                                <input type="text" class="form-control" id="employeeNameEdit">
+                                <label for="drugNameEdit" class="control-label">药品名:</label>
+                                <input type="text" class="form-control" id="drugNameEdit" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <label for="accountEdit" class="control-label">账户余额(￥):</label>
-                                <input type="text" class="form-control" id="accountEdit">
+                                <label for="drugTradeNameEdit" class="control-label">商品名</label>
+                                <input type="text" class="form-control" id="drugTradeNameEdit">
                             </div>
                             <div class="form-group">
-                                <label for="incomeEdit" class="control-label">每月进项(￥):</label>
-                                <input type="text" class="form-control" id="incomeEdit">
+                                <label for="drugNoEdit" class="control-label">药品编号:</label>
+                                <input type="text" class="form-control" id="drugNoEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="drugUnitEdit" class="control-label">单位:</label>
+                                <input type="text" class="form-control" id="drugUnitEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="drugPriceEdit" class="control-label">售价:</label>
+                                <input type="text" class="form-control" id="drugPriceEdit">
                             </div>
                         </form>
                     </div>
@@ -265,13 +281,15 @@
             $('.alert-danger').css("display", "none");
 
             $("#jqGrid").jqGrid({
-                url: 'employees/list',
+                url: 'drugs/list',
                 datatype: "json",
                 colModel: [
-                    {label: 'id', name: 'id', index: 'id', width: 50, hidden: true, key: true},
-                    {label: '姓名', name: 'employeeName', index: 'employeeName', sortable: false, width: 80},
-                    {label: '账户余额', name: 'account', index: 'account', sortable: false, width: 80},
-                    {label: '每月进项', name: 'income', index: 'income', sortable: false, width: 80},
+                    {label: 'drugId', name: 'drugId', index: 'drugId', width: 50, hidden: true, key: true},
+                    {label: '通用名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
+                    {label: '商品名', name: 'drugTradeName', index: 'drugTradeName', sortable: false, width: 80},
+                    {label: '药品编号', name: 'drugNo', index: 'drugNo', sortable: false, width: 80},
+                    {label: '单位', name: 'drugUnit', index: 'drugUnit', sortable: false, width: 80},
+                    {label: '售价', name: 'drugPrice', index: 'drugPrice', sortable: false, width: 80},
                     {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
                 ],
                 height: 485,
@@ -306,12 +324,12 @@
             });
         });
 
-        function employeeAdd() {
+        function drugAdd() {
             reset();
             $("#modalAdd").modal('show');
         }
 
-        function employeeEdit() {
+        function drugEdit() {
             reset();
             //获取到当前需要修改的记录的主键
             var grid = $("#jqGrid");
@@ -325,17 +343,19 @@
                 alert("只能选择选择一条记录");
                 return;
             }
-            var employeeId = selectIDs[0];
-            $("#employeeId").val(employeeId);
+            var drugId = selectIDs[0];
+            $("#drugId").val(drugId);
             var rowData = $("#jqGrid").jqGrid("getRowData", rowKey);
-            $("#employeeNameEdit").val(rowData.employeeName);
-            $("#accountEdit").val(rowData.account);
-            $("#incomeEdit").val(rowData.income);
+            $("#drugNameEdit").val(rowData.drugName);
+            $("#drugTradeNameEdit").val(rowData.drugTradeName);
+            $("#drugNoEdit").val(rowData.drugNo);
+            $("#drugUnitEdit").val(rowData.drugUnit);
+            $("#drugPriceEdit").val(rowData.drugPrice);
             //modal框给显示出来
             $("#modalEdit").modal('show');
         }
 
-        function employeeDelete(){
+        function drugDelete(){
             var grid = $("#jqGrid");
             var rowKey = grid.getGridParam("selrow");
             if (!rowKey) {
@@ -348,15 +368,12 @@
                 return;
             }
             var rowData = $("#jqGrid").jqGrid("getRowData", rowKey);
-            var employeeId = rowData.id;
-            var employeeName = rowData.employeeName;
-            var account = rowData.account;
-            var income = rowData.income;
-            var data = {"id": employeeId, "employeeName": employeeName, "account": account, "income": income};
+            var drugId = rowData.drugId;
+            var data = {"drugId": drugId};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: 'employees/stopUse',//url
+                url: 'drugs/stopUse',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {
@@ -376,14 +393,16 @@
         }
 
         $('#saveButton').click(function () {
-            var employeeName = $('#employeeName').val();
-            var account = $('#account').val();
-            var income = $('#income').val();
-            var data = {"employeeName": employeeName, "account": account, "income": income};
+            var drugName = $('#drugName').val();
+            var drugTradeName = $('#drugTradeName').val();
+            var drugNo = $('#drugNo').val();
+            var drugUnit = $('#drugUnit').val();
+            var drugPrice = $('#drugPrice').val();
+            var data = {"drugName": drugName, "drugTradeName": drugTradeName, "drugNo": drugNo, "drugUnit": drugUnit, "drugPrice": drugPrice};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: 'employees/save',//url
+                url: 'drugs/save',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {
@@ -403,15 +422,17 @@
             });
         })
         $('#editButton').click(function () {
-            var employeeId = $('#employeeId').val();
-            var employeeName = $('#employeeNameEdit').val();
-            var account = $('#accountEdit').val();
-            var income = $('#incomeEdit').val();
-            var data = {"id": employeeId, "employeeName": employeeName, "account": account, "income": income};
+            var drugId = $('#drugId').val();
+            var drugTradeName = $('#drugTradeNameEdit').val();
+            var drugName = $('#drugNameEdit').val();
+            var drugNo = $('#drugNoEdit').val();
+            var drugUnit = $('#drugUnitEdit').val();
+            var drugPrice = $('#drugPriceEdit').val();
+            var data = {"drugId": drugId, "drugName": drugName, "drugTradeName": drugTradeName, "drugNo": drugNo, "drugUnit": drugUnit, "drugPrice": drugPrice};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: 'employees/update',//url
+                url: 'drugs/update',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {
@@ -435,10 +456,11 @@
          * 重置
          */
         function reset() {
-            $('#userName').val('');
-            $('#password').val('');
-            $('#userId').val('');
-            $('#passwordEdit').val('');
+            $("#drugName").val('');
+            $("#drugTradeName").val('');
+            $("#drugNo").val('');
+            $("#drugUnit").val('');
+            $("#drugPrice").val('');
         }
 
         /**

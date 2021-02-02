@@ -46,7 +46,7 @@ public class DrugServiceImpl implements  DrugService{
     @Override
     public int update(Drug drug) {
         return drugDao.update(drug.getDrugId(), drug.getDrugName(), drug.getDrugTradeName(), drug.getDrugPackage(), drug.getDrugNo(), drug.getDrugUnit(),
-                                drug.getDrugPrice(), drug.getDrugDuration());
+                                drug.getDrugPrice());
     }
 
     @Override

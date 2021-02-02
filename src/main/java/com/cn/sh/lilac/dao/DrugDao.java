@@ -31,7 +31,7 @@ public interface DrugDao {
      * @return
      */
     int update(@Param("drugId") Long drugId, @Param("newDrugName") String newDrugName, @Param("newDrugTradeName") String newDrugTradeName, @Param("newDrugPackage") String newDrugPackage,
-               @Param("newDrugNo") String newDrugNo, @Param("newDrugUnit") String drugUnit, @Param("newDrugPrice") BigDecimal newDrugPrice,@Param("newDrugDuration") Date drugDuration);
+               @Param("newDrugNo") String newDrugNo, @Param("newDrugUnit") String drugUnit, @Param("newDrugPrice") BigDecimal newDrugPrice);
 
     /**
      * 删除药品信息(停用)

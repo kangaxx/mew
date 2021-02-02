@@ -51,12 +51,6 @@ public class Drug {
     private BigDecimal drugPrice;
 
     /**
-     * 药品有效期
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date drugDuration;
-
-    /**
      * 是否已删除 0未删除 1已删除
      */
     private int isDeleted;
@@ -91,8 +85,6 @@ public class Drug {
     public void setDrugPrice(BigDecimal drugPrice) { this.drugPrice = drugPrice; }
     public BigDecimal getDrugPrice() { return this.drugPrice; }
 
-    public void setDrugDuration(Date drugDuration) { this.drugDuration = drugDuration; }
-    public Date getDrugDuration() { return this.drugDuration; }
 
     public void setCreateTime(Date createTime) { this.createTime = createTime; }
     public Date getCreateTime() { return this.createTime; }
@@ -114,7 +106,6 @@ public class Drug {
                 "manufacture_id = '" + manufactureId + '\'' +
                 "drug_unit = '" + drugUnit + '\'' +
                 "drug_price = " + drugPrice +
-                "drug_duration = '" + drugDuration + '\'' +
                 "is_deleted = '" + isDeleted + '\'' +
                 "createTime = '" + createTime + '\'' +
                 "}";

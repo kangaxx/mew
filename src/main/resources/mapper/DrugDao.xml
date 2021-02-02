@@ -8,38 +8,40 @@
         <result property="drugTradeName" column="drug_trade_name" jdbcType="VARCHAR"/>
         <result property="drugPackage" column="drug_package" jdbcType="VARCHAR"/>
         <result property="drugNo" column="drug_no" jdbcType="VARCHAR"/>
-        <result property="manufactureId" column="manufacture_id" jdbcType="BIGINT"/>
         <result property="drugUnit" column="drug_unit" jdbcType="VARCHAR"/>
         <result property="drugPrice" column="drug_price" jdbcType="DECIMAL"/>
-        <result property="drugDuration" column="drug_duration" jdbcType="TIMESTAMP"/>
         <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
     <insert id="addDrug">
-        insert into tb_drug(drug_name, drug_no, unit, price, drug_duration)
-        values(#{drug_name}, #{drug_no}, #{unit}, #{price}, #{drug_duration})
+        insert into tb_drug(drug_name, drug_trade_name, drug_no, drug_unit, drug_price)
+        values(#{drugName}, #{drugTradeName}, #{drugNo}, #{drugUnit}, #{drugPrice})
     </insert>
     <select id="getDrugByDrugName" resultMap="DrugResult">
-        select drug_id, drug_name, drug_trade_name, drug_package, drug_no, drug_unit, drug_price, drug_duration from tb_drug
+        select drug_id, drug_name, drug_trade_name, drug_no, drug_unit, drug_price
+        from tb_drug
         where drug_name = #{drugName}
-        and is_deleted = 0;
+        and is_deleted = 0
     </select>
     <select id="getDrugByDrugId" resultMap="DrugResult">
-        select drug_id, drug_name, drug_trade_name, drug_package, drug_no, drug_unit, drug_price, drug_duration from tb_drug
+        select drug_id, drug_name, drug_trade_name, drug_no, drug_unit, drug_price
+        from tb_drug
         where drug_id = #{drugId}
-        and is_deleted = 0;
+        and is_deleted = 0
     </select>
-    <select id="findDrugs" resultType="com.cn.sh.lilac.model.Drug">
-        select drug_id, drug_name, drug_trade_name, drug_package, drug_no, drug_unit, drug_price, drug_duration from tb_drug from tb_drug
+    <select id="findDrugs" parameterType="Map"  resultMap="DrugResult">
+        select drug_id, drug_name, drug_trade_name, drug_no, drug_unit, drug_price, create_time
+        from tb_drug
         where is_deleted = 0
+        order by drug_id desc
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}
         </if>
     </select>
-    <select id="getTotalDrug" resultType="java.lang.Integer"> select count(*) from tb_drug where is_deleted = 0</select>
+    <select id="getTotalDrug" parameterType="Map" resultType="int"> select count(*) from tb_drug where is_deleted = 0</select>
     <update id="update">
-        update tb_drug set drug_name = #{newDrugName}, drug_trade_name = #{newDrugTradeName}, drug_package = #{newDrugPackage}, drugNo = #{newDrugNo},
-            drug_unit = #{newDrugUnit}, drug_price = #{newDrugPrice}, drugDuration = #{newDrugDuration}
+        update tb_drug set drug_name = #{newDrugName}, drug_trade_name = #{newDrugTradeName}, drug_no = #{newDrugNo},
+            drug_unit = #{newDrugUnit}, drug_price = #{newDrugPrice}
         where drug_id = #{drugId} and is_deleted = 0
     </update>
     <update id="stopUse">update tb_drug set is_deleted = 1 where drug_id = #{drugId} and is_deleted = 0</update>
