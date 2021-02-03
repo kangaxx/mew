@@ -39,3 +39,13 @@ CREATE TABLE tb_drug (`drug_id` int AUTO_INCREMENT,
 	PRIMARY KEY (`drug_id`),
 	INDEX `idx_drug_drug_name` (`drug_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='药品信息表';
+
+DROP TABLE IF EXISTS `tb_storage`;
+CREATE TABLE tb_storage (`storage_id` int AUTO_INCREMENT,
+	`storage_name` varchar(20) NOT NULL UNIQUE,
+	`is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已删除 0未删除 1已删除',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+	PRIMARY KEY (`storage_id`),
+	INDEX `idx_storage_storage_name` (`storage_name`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库信息表';
+INSERT  INTO `tb_storage`(`storage_name`) VALUES ('药房');
