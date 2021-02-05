@@ -36,6 +36,48 @@ public class Input {
      * 批号
      */
     private String batchNo;
-    
+    /**
+     * 药品期限
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date createTime;
 
+    /**
+     * 是否已删除 0未删除 1已删除
+     */
+    private int isDeleted;
+
+    public void setInputId(Long inputId) { this.inputId = inputId; }
+    public Long getInputId() { return this.inputId; }
+
+    public void setDrugId(Long drugId) { this.drugId = drugId; }
+    public Long getDrugId() { return this.drugId;}
+
+    public void setPrice(BigDecimal price) { this.price = price; }
+    public BigDecimal getPrice() { return this.price; }
+
+    public void setInputNum(BigDecimal inputNum) { this.inputNum = inputNum; }
+    public BigDecimal getInputNum() { return this.inputNum; }
+
+    public void setDuration(Date duration) { this.duration = duration; }
+    public Date getDuration() { return this.duration; }
+
+    public void setBatchNo(String batchNo) { this.batchNo = batchNo; }
+    public String getBatchNo() { return this.batchNo; }
+
+    public void setCreateTime(Date createTime) { this.createTime = createTime; }
+    public Date getCreateTime() { return this.createTime; }
+
+    public void setIsDeleted(int isDeleted) { this.isDeleted = isDeleted; }
+    public int getIsDeleted() { return this.isDeleted; }
+
+    @Override
+    public String toString() {
+        return "input{" +
+                "inputId=" + inputId +
+                ", inputNum='" + inputNum + '\'' +
+                ", duration=" + duration +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

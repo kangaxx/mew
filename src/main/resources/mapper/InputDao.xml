@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.sh.lilac.dao.InputDao">
+    <resultMap type="com.cn.sh.lilac.model.Input" id="InputResult">
+        <id property="inputId" column="input_id" jdbcType="BIGINT"/>
+        <result property="drugId" column="drug_id" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="VARCHAR"/>
+        <result property="duration" column="duration" jdbcType="TIMESTAMP"/>
+        <result property="batchNo" column="batch_no" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        input_id, drug_id, price, duration, batch_no, create_time
+    </sql>
+
+    <insert id="addInput">
+        insert into tb_input(drug_id, price, duration, batch_no)
+        values(#{drugId}, #{price}, #{duration}, #{batchNo})
+    </insert>
+
+    <select id="getTotalInput" parameterType="Map" resultType="int">
+        select count(*) from tb_input
+        where is_deleted=0
+    </select>
+
+    <select id="findInputs" parameterType="Map" resultMap="InputResult">
+        select
+        <Base_Column_List>
+        from tb_input
+        where is_deleted = 0
+        order by input_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getInputByInputId" resultMap="InputResult">
+        select
+        <Base_Column_List>
+        from tb_input
+        where is_deleted = 0
+        and input_id = #{inputId}
+        order by input_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+</mapper>
