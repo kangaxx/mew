@@ -104,7 +104,7 @@ public class DrugController {
     }
 
     @PostMapping(value = "/stopUse")
-    public Result employeeStopUse(@RequestBody Drug drug) {
+    public Result drugStopUse(@RequestBody Drug drug) {
         if (drug.getDrugId() == null) {
             return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常，缺少ID");
         }
@@ -117,5 +117,9 @@ public class DrugController {
         }
     }
 
+    @GetMapping(value = "/findAll")
+    public List<Drug> drugFindAll() {
+        return drugService.findAll();
+    }
 
 }

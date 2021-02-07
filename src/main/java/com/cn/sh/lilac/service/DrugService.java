@@ -5,6 +5,8 @@ import com.cn.sh.lilac.dao.DrugDao;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
 
+import java.util.List;
+
 /**
  * @author gxx
  */
@@ -16,6 +18,7 @@ public interface DrugService {
      */
     PageResult getDrugPage(PageUtil pageUtil);
 
+    List<Drug> findAll();
     /**
      * 新增药品记录
      *
@@ -37,6 +40,11 @@ public interface DrugService {
      */
     Drug selectDrugByName(String drugName);
 
+    /**
+     * 根据药品名称查找
+     * @param drugId
+     */
+    Drug selectDrugByDrugId(Long drugId);
     /**
      * 停用药品
      */

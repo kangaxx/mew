@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public interface InputDao {
     Input getInputByInputId(@Param("inputId") Long inputId);
+    Input getInputByDrugId(@Param("drugId") Long drugId);
     List<Input> findInputs(Map param);
     int getTotalInput(Map param);
     /**

@@ -27,7 +27,7 @@
 
     <select id="findInputs" parameterType="Map" resultMap="InputResult">
         select
-        <Base_Column_List>
+        <include refid="Base_Column_List"/>
         from tb_input
         where is_deleted = 0
         order by input_id desc
@@ -38,10 +38,21 @@
 
     <select id="getInputByInputId" resultMap="InputResult">
         select
-        <Base_Column_List>
+        <include refid="Base_Column_List"/>
         from tb_input
         where is_deleted = 0
         and input_id = #{inputId}
+        order by input_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getInputByDrugId" resultMap="InputResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_input
+        where is_deleted = 0
+        and drug_id = #{drugId}
         order by input_id desc
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}

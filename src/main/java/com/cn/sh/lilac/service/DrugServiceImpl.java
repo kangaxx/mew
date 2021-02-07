@@ -39,6 +39,11 @@ public class DrugServiceImpl implements  DrugService{
     }
 
     @Override
+    public List<Drug> findAll() {
+        return drugDao.findAll();
+    }
+
+    @Override
     public int save(Drug drug) {
         return drugDao.addDrug(drug);
     }
@@ -52,6 +57,11 @@ public class DrugServiceImpl implements  DrugService{
     @Override
     public Drug selectDrugByName(String drugName) {
         return drugDao.getDrugByDrugName(drugName);
+    }
+
+    @Override
+    public Drug selectDrugByDrugId(Long drugId) {
+        return drugDao.getDrugByDrugId(drugId);
     }
 
     @Override

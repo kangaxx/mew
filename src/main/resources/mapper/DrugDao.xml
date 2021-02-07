@@ -39,6 +39,12 @@
         </if>
     </select>
     <select id="getTotalDrug" parameterType="Map" resultType="int"> select count(*) from tb_drug where is_deleted = 0</select>
+    <select id="findAll" resultMap="DrugResult">
+        select drug_id, drug_name, drug_trade_name, drug_no, drug_unit, drug_price, create_time
+        from tb_drug
+        where is_deleted = 0
+        order by drug_id desc
+    </select>
     <update id="update">
         update tb_drug set drug_name = #{newDrugName}, drug_trade_name = #{newDrugTradeName}, drug_no = #{newDrugNo},
             drug_unit = #{newDrugUnit}, drug_price = #{newDrugPrice}

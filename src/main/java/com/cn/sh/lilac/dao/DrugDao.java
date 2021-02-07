@@ -37,4 +37,6 @@ public interface DrugDao {
      * 删除药品信息(停用)
      */
     int stopUse(@Param("drugId") Long drugId);
+
+    List<Drug> findAll();
 }

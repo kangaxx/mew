@@ -49,3 +49,16 @@ CREATE TABLE tb_storage (`storage_id` int AUTO_INCREMENT,
 	INDEX `idx_storage_storage_name` (`storage_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='仓库信息表';
 INSERT  INTO `tb_storage`(`storage_name`) VALUES ('药房');
+
+DROP TABLE IF EXISTS `tb_input`;
+CREATE TABLE tb_input (`input_id` int AUTO_INCREMENT,
+	`drug_id` int NOT NULL UNIQUE,
+	`price` DECIMAL(14,6) NULL,
+	`input_num` DECIMAL(12,4) NULL,
+	`batch_no` varchar(20) NULL,
+	`duration` datetime NOT NULL,
+	`is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已删除 0未删除 1已删除',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+	PRIMARY KEY (`input_id`),
+	INDEX `idx_input_drug_id` (`drug_id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='药品入库表';
