@@ -127,8 +127,10 @@
                                         class="fa fa-times"></i>&nbsp;删除
                                 </button>
                                 <button class="btn btn-upload" style="margin-top: 20px">
-                                    <a data-toggle="modal" href="#uploadExcel" role="button" style="color: black; text-decoration: none">
-                                        批量添加<sapn class="glyphicon glyphicon-plus"/>
+                                    <a data-toggle="modal" href="#uploadExcel" role="button"
+                                       style="color: black; text-decoration: none">
+                                        批量添加
+                                        <sapn class="glyphicon glyphicon-plus"/>
                                     </a>
                                 </button>
                             </div>
@@ -170,8 +172,19 @@
                             <div class="form-group">
                                 <div class="alert alert-danger add-error-info">错误信息展示栏。</div>
                             </div>
-                            <div class="dropdown">
-                                <select id="drugId" name="role" class="selectpicker" title="请选择" data-width="150px" style="">
+                            <div class="form-group">
+                                检索下拉：
+                                <select id="searchSelect">
+                                    <option value="1">常州大学</option>
+                                    <option value="2">清华</option>
+                                    <option value="3">北大</option>
+                                    <option value="4">河海大学</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="drugId" class="control-label">药品名</label>
+                                <select id="drugId" name="role" class="form-control" title="请选择" style="">
                                 </select>
                             </div>
                             <div class="form-group">
@@ -206,12 +219,19 @@
 
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="plugins/js/jquery.combo.select.js"></script>
+
     <!-- jQuery UI 1.11.4 -->
     <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="plugins/jqgrid-5.3.0/grid.locale-cn.js"></script>
     <script src="plugins/jqgrid-5.3.0/jquery.jqGrid.min.js"></script>
+    <!-- bootstrap-select -->
+    <link rel="stylesheet" href="plugins/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css">
+    <script src="plugins/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
+    <script src="plugins/bootstrap-select-1.13.14/dist/js/i18n/defaults-zh_CN.min.js"></script>
+    <!-- adminlte -->
     <script src="dist/js/adminlte.js"></script>
     <script type="text/javascript">
         $(function () {
@@ -255,6 +275,7 @@
                     //隐藏grid底部滚动条
                     $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
                 }
+
             });
 
             $(window).resize(function () {
@@ -267,13 +288,15 @@
                 dataType: "json",
                 success: function (data) {
                 //拼接下拉框
-                for(var i=0;i<data.length;i++){
-                    $("#drugId").append("<option value='"+data[i].drugId+"'>"+data[i].drugName+"</option>");
+                    for(var i=0;i<data.length;i++){
+                        $("#drugId").append("<option value='"+data[i].drugId+"'>"+data[i].drugName+"</option>");
+                    }
+                    //这一步不要忘记 不然下拉框没有数据
+                    $("#drugId").selectpicker("refresh");
                 }
-                //这一步不要忘记 不然下拉框没有数据
-                $("#drugId").selectpicker("refresh");
-            }
-        });
+            });
+
+            $("#searchSelect").selectpicker({ width: 120, liveSearch: true,liveSearchPlaceholder: "数据检索" });
         });
 
         function inputAdd() {
