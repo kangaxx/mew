@@ -20,4 +20,8 @@ public interface InputDao {
      * @return
      */
     int addInput(Input input);
+    /**
+     * 删除入库信息(停用)
+     */
+    int stopUse(@Param("inputId") Long inputId);
 }

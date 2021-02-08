@@ -61,7 +61,7 @@ public class InputController {
 
     @PostMapping(value = "/stopUse")
     public Result drugStopUse(@RequestBody Input input) {
-        if (input.getDrugId() == null) {
+        if (input.getInputId() == null) {
             return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常，缺少ID");
         }
 

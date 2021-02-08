@@ -47,6 +47,6 @@ public class InputServiceImpl implements  InputService{
 
     @Override
     public int stopUse(Input input) {
-        return 0;
+        return inputDao.stopUse(input.getInputId());
     }
 }

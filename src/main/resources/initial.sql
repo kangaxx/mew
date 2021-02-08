@@ -52,7 +52,7 @@ INSERT  INTO `tb_storage`(`storage_name`) VALUES ('药房');
 
 DROP TABLE IF EXISTS `tb_input`;
 CREATE TABLE tb_input (`input_id` int AUTO_INCREMENT,
-	`drug_id` int NOT NULL UNIQUE,
+	`drug_id` int NOT NULL,
 	`price` DECIMAL(14,6) NULL,
 	`input_num` DECIMAL(12,4) NULL,
 	`batch_no` varchar(20) NULL,

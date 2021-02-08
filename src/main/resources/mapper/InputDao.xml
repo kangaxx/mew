@@ -19,6 +19,7 @@
         insert into tb_input(drug_id, price, duration, batch_no)
         values(#{drugId}, #{price}, #{duration}, #{batchNo})
     </insert>
+    <update id="stopUse">update tb_input set is_deleted = 1 where input_id = #{inputId} and is_deleted = 0</update>
 
     <select id="getTotalInput" parameterType="Map" resultType="int">
         select count(*) from tb_input
