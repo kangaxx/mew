@@ -19,6 +19,7 @@ public class Input {
      * input drug id
      */
     private Long drugId;
+    private String drugName;
     /**
      * 入库售价
      */
@@ -52,6 +53,9 @@ public class Input {
 
     public void setDrugId(Long drugId) { this.drugId = drugId; }
     public Long getDrugId() { return this.drugId;}
+
+    public void setDrugName(String drugName) { this.drugName = drugName;}
+    public String getDrugName() { return this.drugName; }
 
     public void setPrice(BigDecimal price) { this.price = price; }
     public BigDecimal getPrice() { return this.price; }

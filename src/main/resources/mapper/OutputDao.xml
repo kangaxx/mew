@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.sh.lilac.dao.OutputDao">
+    <resultMap type="com.cn.sh.lilac.model.Output" id="OutputResult">
+        <id property="outputId" column="output_id" jdbcType="BIGINT"/>
+        <result property="inputId" column="input_id" jdbcType="BIGINT"/>
+        <result property="drugId" column="drug_id" jdbcType="BIGINT"/>
+        <result property="employeeId" column="employee_id" jdbcType="BIGINT"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="duration" column="duration" jdbcType="TIMESTAMP"/>
+        <result property="outputNum" column="batch_no" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        output_id, input_id, drug_id, employee_id, output_num, duration, create_time
+    </sql>
+    <insert id="addOutput">
+        insert into tb_output(input_id, drug_id, employee_id, duration, output_num)
+        values(#{inputId}, #{drugId}, #{employeeId}, #{duration}, #{outputNum})
+    </insert>
+    <update id="stopUse">
+        update tb_output set is_deleted = 1 where output_id = #{outputId} and is_deleted = 0
+    </update>
+    <select id="getOutputByOutputId" resultMap="OutputResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_output
+        where output_id = #{outputId}
+        and is_deleted = 0
+    </select>
+    <select id="findOutputs" parameterType="Map" resultMap="OutputResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_output
+        where is_deleted = 0
+        order by output_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalOutput" parameterType="Map" resultType="int">
+        select count(*) from tb_output
+        where is_deleted=0
+    </select>
+    <select id="getOutputsByInputId" resultMap="OutputResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_output
+        where input_id = #{inputId}
+        and is_deleted = 0
+    </select>
+</mapper>

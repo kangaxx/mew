@@ -1,41 +1,43 @@
 package com.cn.sh.lilac.service;
 
 import com.cn.sh.lilac.model.Input;
+import com.cn.sh.lilac.model.Output;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
+
+import java.util.List;
 
 /**
  * @author gu xinxin
  */
-public interface InputService {
+public interface OutputService {
     /**
      * 获取分页列表
      * @param pageUtil
      * @return
      */
-    PageResult getInputPage(PageUtil pageUtil);
+    PageResult getOutputPage(PageUtil pageUtil);
 
     /**
      * 新增药品记录
      *
      * @return
      */
-    int save(Input input);
+    int save(Output output);
 
     /**
      * 根据id查找
-     * @param inputId
+     * @param outputId
      */
-    Input selectInputByInputId(Long inputId);
+    Output selectOutputByOutputId(Long outputId);
 
     /**
-     * 根据药品id查找
-     * @param drugId
+     * 按照inputId查找Output
      */
-    Input selectInputByDrugId(Long drugId);
+    List<Output> findOutputsByInputId(Long inputId);
 
     /**
-     * 删除入库信息
+     * 删除领药信息
      */
-    int stopUse(Input input);
+    int stopUse(Output output);
 }

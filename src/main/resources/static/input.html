@@ -174,7 +174,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="drugId" class="control-label">药品名</label>
-                                <select id="drugId" name="role" class="form-control" title="请选择" style="">
+                                <select id="drugId" name="role" class="form-control" title="请选择" style="" onchange="selectOnChange(this)">
                                 </select>
                             </div>
                             <div class="form-group">
@@ -237,7 +237,7 @@
                 datatype: "json",
                 colModel: [
                     {label: 'inputId', name: 'inputId', index: 'inputId', width: 50, hidden: true, key: true},
-                    {label: '药品名', name: 'drugId', index: 'drugId', sortable: false, width: 80},
+                    {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
                     {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
                     {label: '入库数量', name: 'inputNum', index: 'inputNum', sortable: false, width: 80},
                     {label: '有效期', name: 'duration', index: 'duration', sortable: false, width: 80},
@@ -373,12 +373,30 @@
             });
         })
 
+        /**
+         * 读取药品默认价格
+         */
+        function selectOnChange(obj) {
+            var drugId = obj.options[obj.selectedIndex].value;
+            var data = {"drugId": drugId};
+            $.ajax({
+                type: 'POST',
+                url: 'drugs/getDrugByDrugId',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (result) {
+                    $("#price").val(result.drugPrice);
+                }
+            });
+        }
 
         /**
          * 重置
          */
         function reset() {
-            $("#drugId").val('');
+            $("#drugId").selectpicker('val',['noneSelectedText'])
+            $("#drugId").selectpicker('refresh');
             $("#price").val('');
             $("#inputNum").val('');
             $("#duration").val('');

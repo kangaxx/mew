@@ -50,6 +50,11 @@ public class DrugController {
         return ResultGenerator.genSuccessResult(drugPage);
     }
 
+    @PostMapping(value = "/getDrugByDrugId")
+    public Drug getDrugByDrugId(@RequestBody Drug drug) {
+        return drugService.selectDrugByDrugId(drug.getDrugId());
+    }
+
     @PostMapping(path = "/save")
     public Result save(@RequestBody Drug drug) {
         if (!StringUtils.hasLength(drug.getDrugName())) {
