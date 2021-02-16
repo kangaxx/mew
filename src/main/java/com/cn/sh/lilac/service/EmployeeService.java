@@ -4,6 +4,8 @@ import com.cn.sh.lilac.model.Employee;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
 
+import java.util.List;
+
 /**
  * @author gxx
  */
@@ -42,8 +44,11 @@ public interface EmployeeService {
      */
     Employee selectEmployeeByName(String name);
 
+    Employee selectEmployeeByEmployeeId(Long id);
     /**
      * 停用员工（但不会删除）
      */
     int stopUse(Employee employee);
+
+    List<Employee> findAll();
 }

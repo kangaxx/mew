@@ -72,4 +72,9 @@ public class InputController {
             return ResultGenerator.genFailResult("修改失败");
         }
     }
+
+    @PostMapping(value = "/getInputByDrugIdAndDuration")
+    public Input getDrugByDrugIdAndDuration(@RequestBody Input input) {
+        return inputService.selectInputByDrugIdAndDuration(input.getDrugId(), input.getDuration());
+    }
 }

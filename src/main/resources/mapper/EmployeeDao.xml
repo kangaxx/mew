@@ -38,6 +38,12 @@
         select count(*) from tb_employee
         where is_deleted=0
     </select>
+    <select id="findAll" resultMap="EmployeeResult">
+        select id, employee_name, account, income, create_time
+        from tb_employee
+        where is_deleted = 0
+        order by id desc
+    </select>
 
     <insert id="addEmployee" parameterType="com.cn.sh.lilac.model.Employee">
         insert into tb_employee(employee_name, account, income)

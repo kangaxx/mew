@@ -62,3 +62,16 @@ CREATE TABLE tb_input (`input_id` int AUTO_INCREMENT,
 	PRIMARY KEY (`input_id`),
 	INDEX `idx_input_drug_id` (`drug_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='药品入库表';
+
+DROP TABLE IF EXISTS `tb_output`;
+CREATE TABLE tb_output (`output_id` int AUTO_INCREMENT,
+    `input_id` Long NOT NULL,
+	`drug_id` Long NOT NULL,
+	`employee_id` Long NOT NULL,
+	`price` DECIMAL(14,6) NULL,
+	`output_num` DECIMAL(12,4) NULL,
+	`duration` datetime NOT NULL,
+	`is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已删除 0未删除 1已删除',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+	PRIMARY KEY (`output_id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='领药信息表';

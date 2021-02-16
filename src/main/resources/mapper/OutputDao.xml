@@ -9,16 +9,17 @@
         <result property="employeeId" column="employee_id" jdbcType="BIGINT"/>
         <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
         <result property="duration" column="duration" jdbcType="TIMESTAMP"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
         <result property="outputNum" column="batch_no" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        output_id, input_id, drug_id, employee_id, output_num, duration, create_time
+        output_id, input_id, drug_id, employee_id, output_num, duration, price, create_time
     </sql>
     <insert id="addOutput">
-        insert into tb_output(input_id, drug_id, employee_id, duration, output_num)
-        values(#{inputId}, #{drugId}, #{employeeId}, #{duration}, #{outputNum})
+        insert into tb_output(input_id, drug_id, employee_id, price, duration, output_num)
+        values(#{inputId}, #{drugId}, #{employeeId}, #{price}, #{duration}, #{outputNum})
     </insert>
     <update id="stopUse">
         update tb_output set is_deleted = 1 where output_id = #{outputId} and is_deleted = 0
@@ -44,7 +45,7 @@
         select count(*) from tb_output
         where is_deleted=0
     </select>
-    <select id="getOutputsByInputId" resultMap="OutputResult">
+    <select id="findOutputsByInputId" resultMap="OutputResult">
         select
         <include refid="Base_Column_List"/>
         from tb_output

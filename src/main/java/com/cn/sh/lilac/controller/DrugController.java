@@ -74,6 +74,7 @@ public class DrugController {
         if (tmpDrug != null) {
             return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "药品名重复，请不要重复添加，如果是重名，建议加序号！");
         }
+
         //插入数据库
         if (drugService.save(drug) > 0) {
             return ResultGenerator.genSuccessResult();

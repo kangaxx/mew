@@ -42,4 +42,6 @@ public interface EmployeeDao {
      * 删除账户信息(停用)
      */
     int stopUse(@Param("employeeId") Long employeeId);
+
+    List<Employee> findAll();
 }

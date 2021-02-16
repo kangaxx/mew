@@ -1,14 +1,17 @@
 package com.cn.sh.lilac.service;
 
 import com.cn.sh.lilac.dao.EmployeeDao;
+import com.cn.sh.lilac.model.Drug;
 import com.cn.sh.lilac.model.Employee;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
 import com.cn.sh.lilac.utils.*;
 import com.cn.sh.lilac.service.EmployeeService;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -74,6 +77,11 @@ public class EmployeeServiceImpl implements  EmployeeService{
         return employeeDao.getEmployeeByEmployeeName(name);
     }
 
+    @Override
+    public Employee selectEmployeeByEmployeeId(Long employeeId) {
+        return employeeDao.getEmployeeById(employeeId);
+    }
+
     /**
      * 停用员工
      *
@@ -84,4 +92,10 @@ public class EmployeeServiceImpl implements  EmployeeService{
     public int stopUse(Employee employee) {
         return employeeDao.stopUse(employee.getId());
     }
+
+    @Override
+    public List<Employee> findAll() {
+        return employeeDao.findAll();
+    }
+
 }

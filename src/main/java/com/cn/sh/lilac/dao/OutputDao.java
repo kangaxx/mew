@@ -11,7 +11,6 @@ import java.util.Map;
  */
 public interface OutputDao {
     Output getOutputByOutputId(@Param("outputId") Long outputId);
-    List<Output> getOutputsByInputId(@Param("inputId") Long inputId);
     List<Output> findOutputs(Map param);
     int getTotalOutput(Map param);
     /**
@@ -24,4 +23,9 @@ public interface OutputDao {
      * 删除入库信息(停用)
      */
     int stopUse(@Param("outputId") Long outputId);
+    /**
+     * 通过inputId查询所有output数据（累计出库数量用
+     */
+    List<Output> findOutputsByInputId(Long inputId);
+
 }

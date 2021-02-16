@@ -3,6 +3,7 @@ package com.cn.sh.lilac.controller;
 import com.cn.sh.lilac.common.Constants;
 import com.cn.sh.lilac.common.Result;
 import com.cn.sh.lilac.common.ResultGenerator;
+import com.cn.sh.lilac.model.Drug;
 import com.cn.sh.lilac.model.Employee;
 import com.cn.sh.lilac.service.EmployeeService;
 import com.cn.sh.lilac.utils.ExcelUtils;
@@ -47,6 +48,11 @@ public class EmployeeController {
         PageUtil pageUtil = new PageUtil(params);
         PageResult employeePage = employeeService.getEmployeePage(pageUtil);
         return ResultGenerator.genSuccessResult(employeePage);
+    }
+
+    @PostMapping(value = "/getEmployeeByEmployeeId")
+    public Employee getEmployeeByEmployeeId(@RequestBody Employee employee) {
+        return employeeService.selectEmployeeByEmployeeId(employee.getId());
     }
 
     @PostMapping(path = "/save")
@@ -167,5 +173,10 @@ public class EmployeeController {
         }
 
         return "导入完成， 总数" + maxRowNum + " 导入:" + uploadNum + " <a href=\"/employee.html\">返回</a>";
+    }
+
+    @GetMapping(value = "/findAll")
+    public List<Employee> employeeFindAll() {
+        return employeeService.findAll();
     }
 }

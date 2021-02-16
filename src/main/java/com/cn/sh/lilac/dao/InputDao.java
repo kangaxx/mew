@@ -3,6 +3,7 @@ package com.cn.sh.lilac.dao;
 import com.cn.sh.lilac.model.Input;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,4 +25,6 @@ public interface InputDao {
      * 删除入库信息(停用)
      */
     int stopUse(@Param("inputId") Long inputId);
+
+    Input getInputByDrugIdAndDuration(Long drugId, Date duration);
 }

@@ -41,7 +41,7 @@ public class OutputServiceImpl implements OutputService{
 
     @Override
     public List<Output> findOutputsByInputId(Long inputId) {
-        return outputDao.getOutputsByInputId(inputId);
+        return outputDao.findOutputsByInputId(inputId);
     }
 
     @Override

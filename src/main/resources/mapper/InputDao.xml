@@ -57,4 +57,14 @@
         and drug_id = #{drugId}
         order by input_id desc
     </select>
+    <select id="getInputByDrugIdAndDuration" resultMap="InputResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_input
+        where is_deleted = 0
+        and drug_id = #{drugId}
+        and duration = #{duration}
+        order by price asc
+        limit 1
+    </select>
 </mapper>

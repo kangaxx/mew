@@ -8,6 +8,7 @@ import com.cn.sh.lilac.utils.PageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,8 +42,8 @@ public class InputServiceImpl implements  InputService{
     }
 
     @Override
-    public Input selectInputByDrugId(Long drugId) {
-        return inputDao.getInputByDrugId(drugId);
+    public Input selectInputByDrugIdAndDuration(Long drugId, Date duration) {
+        return inputDao.getInputByDrugIdAndDuration(drugId, duration);
     }
 
     @Override
