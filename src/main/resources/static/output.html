@@ -170,7 +170,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="employeeId" class="control-label">领药人</label>
-                                <select id="employeeId" name="role" class="form-control" title="请选择" style="" onchange="selectOnEmployeeChange(this)" data-size="5">
+                                <select id="employeeId" name="role" class="form-control" title="请选择" style="" onchange="selectOnEmployeeChange(this)">
                                 </select>
                             </div>
                             <div class="form-group">
@@ -289,7 +289,7 @@
                 success: function (data) {
                 //拼接下拉框
                     for(var i=0;i<data.length;i++){
-                        $("#empolyeeId").append("<option value='"+data[i].id+"'>"+data[i].employeeName+"</option>");
+                        $("#employeeId").append("<option value='"+data[i].id+"'>"+data[i].employeeName+"</option>");
                     }
                     //这一步不要忘记 不然下拉框没有数据
                     $("#empolyeeId").selectpicker("refresh");
@@ -385,7 +385,7 @@
          */
         function selectOnDrugChange(obj) {
             var drugId = obj.options[obj.selectedIndex].value;
-            alert(duration);
+            var duration = $('#duration').val();
             var data = {"drugId": drugId, "duration": duration};
             $.ajax({
                 type: 'POST',
