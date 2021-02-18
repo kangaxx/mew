@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>登录页 | Log in</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <b>CSDN SpringBoot</b>
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">小鼠抓药管理系统</p>
+
+      <form action="##" onsubmit="return false;" method="post">
+        <div class="form-group has-feedback">
+          <input type="text" id="userName" class="form-control" placeholder="默认账号：admin">
+          <span class="fa fa-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+          <input type="password" id="password" class="form-control" placeholder="默认密码：123456">
+          <span class="fa fa-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="checkbox icheck">
+              <label>
+                <input type="checkbox"> 记住我
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" onclick="login()" class="btn btn-primary btn-block btn-flat">登录</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript">
+  function login() {
+      var userName = $("#userName").val();
+      var password = $("#password").val();
+      var data = {"userName":userName,"password":password}
+      $.ajax({
+          type: "POST",//方法类型
+          dataType: "json",//预期服务器返回的数据类型
+          url: "users/login",
+          contentType: "application/json; charset=utf-8",
+          data:JSON.stringify(data),
+          success: function (result) {
+              if (result.resultCode == 200) {
+                  setCookie("token",result.data.userToken);
+                  window.location.href = "/employee.html";
+              }
+              ;
+              if (result.resultCode == 500) {
+                  alert("登陆失败!请检查账号和密码！");
+                  return;
+              }
+          },
+          error: function () {
+              alert("接口异常，请联系管理员！");
+              return;
+          }
+      });
+  }
+
+  function setCookie(name,value) {
+var exp = new Date();
+exp.setTime(exp.getTime()+30*24*60*60*1000);
+document.cookie = name+"="+escape(value)+";expires="+exp.toGMTString()+";path=/";
+  }
+</script>
+</body>
+</html>

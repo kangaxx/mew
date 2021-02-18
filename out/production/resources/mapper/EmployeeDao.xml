@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.sh.lilac.dao.EmployeeDao">
+    <resultMap type="com.cn.sh.lilac.model.Employee" id="EmployeeResult">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
+        <result property="account" column="account" jdbcType="DECIMAL"/>
+        <result property="income" column="income" jdbcType="DECIMAL"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <select id="getEmployeeByEmployeeName" resultMap="EmployeeResult">
+        select id, employee_name, account,income
+        from tb_employee
+        where employee_name = #{employeeName}
+        and is_deleted = 0
+    </select>
+
+    <select id="getEmployeeById" resultMap="EmployeeResult">
+        select id, employee_name, account, income
+        from tb_employee
+        where id = #{id}
+        and is_deleted = 0
+    </select>
+
+    <select id="findEmployees" parameterType="Map" resultMap="EmployeeResult">
+        select id, employee_name, account, income, create_time
+        from tb_employee
+        where is_deleted = 0
+        order by id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getTotalEmployee" parameterType="Map" resultType="int">
+        select count(*) from tb_employee
+        where is_deleted=0
+    </select>
+    <select id="findAll" resultMap="EmployeeResult">
+        select id, employee_name, account, income, create_time
+        from tb_employee
+        where is_deleted = 0
+        order by id desc
+    </select>
+
+    <insert id="addEmployee" parameterType="com.cn.sh.lilac.model.Employee">
+        insert into tb_employee(employee_name, account, income)
+        values(#{employeeName}, #{account}, #{income})
+    </insert>
+
+    <update id="updateEmployeeAccount">
+        update tb_employee set account = #{newAccount} where id = #{employeeId} and is_deleted = 0
+    </update>
+
+    <update id="update">
+        update tb_employee set employee_name = #{newEmployeeName}, account = #{newAccount}, income = #{newIncome} where id = #{employeeId} and is_deleted = 0
+    </update>
+
+    <update id="stopUse"> update tb_employee set is_deleted = 1 where id = #{employeeId} and is_deleted = 0</update>
+</mapper>

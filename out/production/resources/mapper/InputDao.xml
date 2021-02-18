@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.sh.lilac.dao.InputDao">
+    <resultMap type="com.cn.sh.lilac.model.Input" id="InputResult">
+        <id property="inputId" column="input_id" jdbcType="BIGINT"/>
+        <result property="drugId" column="drug_id" jdbcType="BIGINT"/>
+        <result property="drugName" column="drug_name" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="VARCHAR"/>
+        <result property="inputNum" column="input_num" jdbcType="DECIMAL" />
+        <result property="duration" column="duration" jdbcType="TIMESTAMP"/>
+        <result property="batchNo" column="batch_no" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        input_id, price, input_num, duration, batch_no
+    </sql>
+
+    <insert id="addInput">
+        insert into tb_input(drug_id, price, duration, input_num, batch_no)
+        values(#{drugId}, #{price}, #{duration}, #{inputNum}, #{batchNo})
+    </insert>
+    <update id="stopUse">update tb_input set is_deleted = 1 where input_id = #{inputId} and is_deleted = 0</update>
+
+    <select id="getTotalInput" parameterType="Map" resultType="int">
+        select count(*) from tb_input
+        where is_deleted=0
+    </select>
+
+    <select id="findInputs" parameterType="Map" resultMap="InputResult">
+        select
+        <include refid="Base_Column_List"/>
+        ,d.drug_name, d.drug_id, i.create_time
+        from tb_input as i, tb_drug as d
+        where i.is_deleted = 0
+        and i.drug_id = d.drug_id
+        order by i.input_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getInputByInputId" resultMap="InputResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_input
+        where is_deleted = 0
+        and input_id = #{inputId}
+        order by input_id desc
+    </select>
+    <select id="getInputByDrugId" resultMap="InputResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_input
+        where is_deleted = 0
+        and drug_id = #{drugId}
+        order by input_id desc
+    </select>
+    <select id="getInputByDrugIdAndDuration" resultMap="InputResult">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_input
+        where is_deleted = 0
+        and drug_id = #{drugId}
+        and duration = #{duration}
+        order by price asc
+        limit 1
+    </select>
+</mapper>

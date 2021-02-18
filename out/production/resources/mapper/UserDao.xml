@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.sh.lilac.dao.UserDao">
+    <resultMap type="com.cn.sh.lilac.model.User" id="UserResult">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="password" column="password_md5" jdbcType="VARCHAR"/>
+        <result property="userToken" column="user_token" jdbcType="VARCHAR"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <update id="updateUserToken">
+        update tb_admin_user set user_token = #{newToken} where id =#{userId} and is_deleted = 0
+    </update>
+
+    <select id="getUserByUserNameAndPassword" resultMap="UserResult">
+        select id,user_name from tb_admin_user where user_name = #{userName} and password_md5 = #{passwordMD5} and is_deleted = 0 limit 1
+    </select>
+
+    <select id="findUsers" parameterType="Map" resultMap="UserResult">
+        select id,user_name,create_time from tb_admin_user
+        where is_deleted=0
+        order by id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getTotalUser" parameterType="Map" resultType="int">
+        select count(*) from tb_admin_user
+        where is_deleted=0
+    </select>
+
+
+    <select id="getUserByUserName" resultMap="UserResult">
+		select id,user_name,user_token
+		from tb_admin_user
+        where user_name = #{userName}
+        and is_deleted = 0
+		ORDER BY  id DESC limit 1
+	</select>
+
+    <select id="getUserById" resultMap="UserResult">
+		select user_name,user_token
+		from tb_admin_user
+        where id=#{id}
+        and is_deleted = 0
+		ORDER BY  id DESC limit 1
+	</select>
+
+    <insert id="addUser" parameterType="com.cn.sh.lilac.model.User">
+        insert into tb_admin_user(user_name,password_md5)
+        values(#{userName},#{password})
+    </insert>
+
+    <update id="updateUserPassword">
+        update tb_admin_user set password_md5 = #{newPassword},user_token ='' where id =#{userId} and is_deleted = 0
+    </update>
+
+
+</mapper>

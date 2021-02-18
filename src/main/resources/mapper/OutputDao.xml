@@ -12,10 +12,11 @@
         <result property="price" column="price" jdbcType="DECIMAL"/>
         <result property="outputNum" column="output_num" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="drugName" column="drug_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        output_id, input_id, drug_id, employee_id, output_num, duration, price, create_time
+        output_id, input_id, output_num, duration, price
     </sql>
     <insert id="addOutput">
         insert into tb_output(input_id, drug_id, employee_id, price, duration, output_num)
@@ -34,8 +35,11 @@
     <select id="findOutputs" parameterType="Map" resultMap="OutputResult">
         select
         <include refid="Base_Column_List"/>
-        from tb_output
-        where is_deleted = 0
+        ,d.drug_name, e.employee_name, o.create_time
+        from tb_output o, tb_employee e, tb_drug d
+        where o.is_deleted = 0
+        and e.id = o.employee_id
+        and d.drug_id = o.drug_id
         order by output_id desc
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}

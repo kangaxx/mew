@@ -174,8 +174,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="drugPrice" class="control-label">价格</label>
-                                <input type="text" class="form-control" id="drugPrice">
+                                <label for="price" class="control-label">价格</label>
+                                <input type="text" class="form-control" id="price">
                             </div>
                             <div class="form-group">
                                 <label for="outputNum" class="control-label">出库数量:</label>
@@ -231,7 +231,7 @@
                     {label: 'outputId', name: 'outputId', index: 'outputId', width: 50, hidden: true, key: true},
                     {label: '领药人', name: 'employeeName', index: 'employeeName', sortable: false, width: 80},
                     {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
-                    {label: '价格', name: 'drugPrice', index: 'drugPrice', sortable: false, width: 80},
+                    {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
                     {label: '出库数量', name: 'outputNum', index: 'outputNum', sortable: false, width: 80},
                     {label: '有效期', name: 'duration', index: 'duration', sortable: false, width: 80},
                     {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
@@ -395,7 +395,7 @@
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {
-                    $("#drugPrice").val(result.price);
+                    $("#price").val(result.price);
                     $("#inputId").val(result.inputId);
                 }
             });
@@ -409,7 +409,7 @@
             $("#drugId").selectpicker('refresh');
             $("#employeeId").selectpicker('val',['noneSelectedText'])
             $("#employeeId").selectpicker('refresh');
-            $("#drugPrice").val('');
+            $("#price").val('');
             $("#outputNum").val('');
             $("#duration").val('');
             $("#batchNo").val('');
