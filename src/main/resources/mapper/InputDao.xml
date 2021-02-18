@@ -57,14 +57,17 @@
         and drug_id = #{drugId}
         order by input_id desc
     </select>
+    <select id="getInputsByDrugId" resultMap="InputResult">
+        select i.duration, i.input_id, i.price,
+        (i.input_num - ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)) as input_num from tb_input i
+        where i.is_deleted = 0 and i.drug_id = #{drugId}
+        and i.input_num > ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)
+    </select>
     <select id="getInputByDrugIdAndDuration" resultMap="InputResult">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_input
-        where is_deleted = 0
-        and drug_id = #{drugId}
-        and duration = #{duration}
-        order by price asc
+        select i.duration, i.input_id, i.price,
+        (i.input_num - ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)) as input_num from tb_input i
+        where i.is_deleted = 0 and i.drug_id = #{drugId} and i.duration = #{duration}
+        and i.input_num > ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)
         limit 1
     </select>
 </mapper>

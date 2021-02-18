@@ -169,21 +169,26 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="duration" class="control-label"> 有效期:</label>
+                                <select id="duration" name="role" class="form-control" title="请选择" style="" onchange="selectOnDurationChange(this)">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNum" class="control-label"> 剩余库存:</label>
+                                <input type="text" class="form-control" id="inputNum" disabled>
+                            </div>
+                            <div class="form-group">
                                 <label for="employeeId" class="control-label">领药人</label>
-                                <select id="employeeId" name="role" class="form-control" title="请选择" style="" onchange="selectOnEmployeeChange(this)">
+                                <select id="employeeId" name="role" class="form-control" title="请选择" style="" >
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="price" class="control-label">价格</label>
-                                <input type="text" class="form-control" id="price">
+                                <input type="text" class="form-control" id="price" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="outputNum" class="control-label">出库数量:</label>
                                 <input type="text" class="form-control" id="outputNum">
-                            </div>
-                            <div class="form-group">
-                                <label for="duration" class="control-label"> 有效期:</label>
-                                <input type="text" class="datepicker" id="duration" placeholder="请选择日期" />
                             </div>
                         </form>
                     </div>
@@ -382,11 +387,35 @@
         })
 
         /**
+        *读取药品入库信息
+        **/
+        function selectOnDrugChange(obj) {
+            document.getElementById("duration").innerHTML = "";
+            var drugId = obj.options[obj.selectedIndex].value;
+            var data = {"drugId": drugId}
+            $.ajax({
+                type: 'POST',
+                url: 'inputs/getInputsByDrugId',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function (result) {
+                    //拼接下拉框
+                    for(var i=0;i<result.length;i++){
+                        $("#duration").append("<option value='"+result[i].duration+"'>"+result[i].duration+"</option>");
+                    }
+                    //这一步不要忘记 不然下拉框没有数据
+                    $("#duration").selectpicker("refresh");
+                }
+            });
+        }
+
+        /**
          * 读取药品默认价格
          */
-        function selectOnDrugChange(obj) {
-            var drugId = obj.options[obj.selectedIndex].value;
-            var duration = $('#duration').val();
+        function selectOnDurationChange(obj) {
+            var drugId = $('#drugId').val();
+            var duration = obj.options[obj.selectedIndex].value;
             var data = {"drugId": drugId, "duration": duration};
             $.ajax({
                 type: 'POST',
@@ -397,6 +426,7 @@
                 success: function (result) {
                     $("#price").val(result.price);
                     $("#inputId").val(result.inputId);
+                    $("#inputNum").val(result.inputNum);
                 }
             });
         }
@@ -409,6 +439,8 @@
             $("#drugId").selectpicker('refresh');
             $("#employeeId").selectpicker('val',['noneSelectedText'])
             $("#employeeId").selectpicker('refresh');
+            $("#duration").selectpicker('val',['noneSelectedText'])
+            $("#duration").selectpicker('refresh');
             $("#price").val('');
             $("#outputNum").val('');
             $("#duration").val('');

@@ -27,4 +27,6 @@ public interface InputDao {
     int stopUse(@Param("inputId") Long inputId);
 
     Input getInputByDrugIdAndDuration(Long drugId, Date duration);
+
+    List<Input> getInputsByDrugId(Long drugId);
 }

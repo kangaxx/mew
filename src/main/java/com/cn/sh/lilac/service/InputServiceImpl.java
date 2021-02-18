@@ -50,4 +50,10 @@ public class InputServiceImpl implements  InputService{
     public int stopUse(Input input) {
         return inputDao.stopUse(input.getInputId());
     }
+
+    @Override
+    public List<Input> selectInputsByDrugId(Long drugId) {
+        return inputDao.getInputsByDrugId(drugId);
+    }
+
 }

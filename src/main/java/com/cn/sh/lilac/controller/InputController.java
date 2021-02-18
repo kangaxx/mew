@@ -77,4 +77,9 @@ public class InputController {
     public Input getDrugByDrugIdAndDuration(@RequestBody Input input) {
         return inputService.selectInputByDrugIdAndDuration(input.getDrugId(), input.getDuration());
     }
+
+    @PostMapping(value = "/getInputsByDrugId")
+    public List<Input> getInputsByDrugId(@RequestBody Input input) {
+        return inputService.selectInputsByDrugId(input.getDrugId());
+    }
 }

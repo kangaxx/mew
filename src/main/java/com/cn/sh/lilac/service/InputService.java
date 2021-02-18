@@ -5,6 +5,7 @@ import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author gu xinxin
@@ -40,4 +41,11 @@ public interface InputService {
      * 删除入库信息
      */
     int stopUse(Input input);
+
+    /**
+     * 根据药品筛选入库药品
+     * @param drugId
+     * @return
+     */
+    List<Input> selectInputsByDrugId(Long drugId);
 }
