@@ -34,7 +34,7 @@ public class Output {
     /**
      * 价格
      */
-    private BigDecimal drugPrice;
+    private BigDecimal price;
     /**
      *
      */
@@ -76,8 +76,8 @@ public class Output {
     public void setDrugName(String drugName) { this.drugName = drugName; }
     public String getDrugName() { return this.drugName; }
 
-    public void setDrugPrice(BigDecimal drugPrice) { this.drugPrice = drugPrice;}
-    public BigDecimal getDrugPrice() { return this.drugPrice; }
+    public void setPrice(BigDecimal price) { this.price = price;}
+    public BigDecimal getPrice() { return this.price; }
 
     public void setOutputNum(BigDecimal outputNum) { this.outputNum = outputNum; }
     public BigDecimal getOutputNum() { return this.outputNum; }

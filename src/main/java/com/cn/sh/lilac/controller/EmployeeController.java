@@ -40,6 +40,9 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
     private final int employeeStartRowNum = 6; //标准excel格式文档第七行开始
+    private final int nameColumnNum = 0; // 姓名在第一列
+    private final int incomeColumnNum = 3; //月收入在第四列
+    private final int accountColumnNum = 7; //账户结余在第八列
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result list(@RequestParam Map<String, Object> params) {
         if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {
@@ -137,15 +140,15 @@ public class EmployeeController {
         try {
             //分析excel文件
             maxRowNum = ExcelUtils.getMaxRowNum(file, 0) - 3; //最后三行是统计数据
-            employeeName = ExcelUtils.getStringValue(file, 0, 6, 0);
-            account = ExcelUtils.getNumValue(file, 0,6, 25);
-            income = ExcelUtils.getNumValue(file, 0,6, 22);
+//            employeeName = ExcelUtils.getStringValue(file, 0, 6, 0);
+//            account = ExcelUtils.getNumValue(file, 0,6, 25);
+//            income = ExcelUtils.getNumValue(file, 0,6, 22);
             List<List<Object>> list = ExcelUtils.getCourseListByExcel(file);
 
             for (int i = employeeStartRowNum; i <= maxRowNum; i++) {
-                employeeName = ExcelUtils.getStringValue(file, 0, i, 0);
-                account = ExcelUtils.getNumValue(file, 0, i, 25);
-                income = ExcelUtils.getNumValue(file, 0, i, 22);
+                employeeName = ExcelUtils.getStringValue(file, 0, i, nameColumnNum);
+                account = ExcelUtils.getNumValue(file, 0, i, accountColumnNum);
+                income = ExcelUtils.getNumValue(file, 0, i, incomeColumnNum);
 
                 //不允许添加同名的员工，目前规定如此
                 Employee employee = new Employee();

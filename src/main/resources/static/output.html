@@ -351,12 +351,13 @@
         }
 
         $('#saveButton').click(function () {
+            var inputId = $('#inputId').val();
             var drugId = $('#drugId').val();
-            var drugPrice = $('#drugPrice').val();
+            var price = $('#price').val();
             var outputNum = $('#outputNum').val();
             var duration = $('#duration').val();
             var employeeId = $('#employeeId').val();
-            var data = {"drugId": drugId, "drugPrice": drugPrice, "outputNum": outputNum, "duration": duration, "employeeId": employeeId};
+            var data = {"inputId": inputId, "drugId": drugId, "price": price, "outputNum": outputNum, "duration": duration, "employeeId": employeeId};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型

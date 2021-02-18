@@ -10,7 +10,7 @@
         <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
         <result property="duration" column="duration" jdbcType="TIMESTAMP"/>
         <result property="price" column="price" jdbcType="DECIMAL"/>
-        <result property="outputNum" column="batch_no" jdbcType="VARCHAR"/>
+        <result property="outputNum" column="output_num" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
