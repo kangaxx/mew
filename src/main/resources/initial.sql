@@ -75,3 +75,12 @@ CREATE TABLE tb_output (`output_id` int AUTO_INCREMENT,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
 	PRIMARY KEY (`output_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='领药信息表';
+
+DROP TABLE IF EXISTS `tb_diagnose`;
+CREATE TABLE tb_diagnose (`diagnose_id` int AUTO_INCREMENT,
+	`employee_id` Long NOT NULL,
+	`illness` VARCHAR(2000),
+	`is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已删除 0未删除 1已删除',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+	PRIMARY KEY (`diagnose_id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='诊断信息表';

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.sh.lilac.dao.DiagnoseDao">
+    <resultMap type="com.cn.sh.lilac.model.Diagnose" id="DiagnoseResult">
+        <id property="diagnoseId" column="diagnose_id" jdbcType="INTEGER"/>
+        <result property="illness" column="illness" jdbcType="VARCHAR"/>
+        <result property="employeeId" column="employee_id" jdbcType="BIGINT"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <update id="stopUse">update tb_diagnose set is_deleted = 1 where diagnose_id = #{diagnoseId} and is_deleted = 0</update>
+    <update id="updateDiagnoseAccount">
+        update tb_diagnose set illness = #{newIllness} where diagnose_id = #{diagnoseId} and is_deleted = 0
+    </update>
+    <select id="findDiagnose" parameterType="Map"  resultMap="DiagnoseResult">
+        select diagnose_id, employee_id, illness, create_time
+        from tb_diagnose
+        where is_deleted = 0
+        order by diagnose_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalDiagnose" parameterType="Map" resultType="int"> select count(*) from tb_diagnose where is_deleted = 0</select>
+    <insert id="addDiagnose">
+        <!--
+            将insert插入的数据的主键返回到User对象中;
+            select last_insert_id():得到刚insert进去记录的主键值，只适用于自增主键;
+            keyProperty:将查询到的主键值，设置到parameterType指定的对象的那个属性
+            order:select last_insert_id()执行顺序，相对于insert语句来说它的执行顺序。
+            resultType:指定select last_insert_id()的结果类型，也就是id的类型;
+        -->
+        <selectKey keyProperty="diagnose_id" order="AFTER" resultType="java.lang.Integer">
+            select last_insert_id()
+        </selectKey>
+        insert into tb_diagnose(illness, employee_id)
+        values(#{drugName}, #{employeeId})
+    </insert>
+</mapper>
