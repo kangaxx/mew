@@ -120,13 +120,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="grid-btn">
-                                <button class="btn btn-info" onclick="employeeAdd()">
+                                <button class="btn btn-info" onclick="diagnoseAdd()">
                                     <i class="fa fa-plus">新增</i>
                                 </button>
-                                <button class="btn btn-warning" onclick="employeeEdit()"><i
+                                <button class="btn btn-warning" onclick="diagnoseEdit()"><i
                                         class="fa fa-edit"></i>&nbsp;编辑
                                 </button>
-                                <button class="btn btn-danger" onclick="employeeDelete()"><i
+                                <button class="btn btn-danger" onclick="diagnoseDelete()"><i
                                         class="fa fa-times"></i>&nbsp;删除
                                 </button>
                             </div>
@@ -146,7 +146,7 @@
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAddLabel" >
             <div class="modal-dialog" role="document" >
-                <div class="modal-content" style="width:700px;height:800px;">
+                <div class="modal-content" style="width:1000px;height:900px;">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
@@ -164,9 +164,20 @@
                             </div>
                             <div class="form-group">
                                 <label for="illness" class="control-label">诊断报告:</label>
-                                <textarea id="illness" name="content" style="width:500px;height:400px;margin:0 auto">
+                                <textarea id="illness" name="content" style="width:800px;height:200px;margin:0 auto">
                                 </textarea>
                             </div>
+                            <div class="grid-btn">
+                                <button class="btn btn-info" onclick="outputAdd()">
+                                    <i class="fa fa-plus">添加药品</i>
+                                </button>
+                                <button class="btn btn-danger" onclick="outputDel()"><i
+                                        class="fa fa-times"></i>&nbsp;删除
+                                </button>
+                            </div>
+                            <!-- 数据展示列表，id 为 jqGrid -->
+                            <table id="jqGridOutput" class="table table-bordered">
+                            </table>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -242,9 +253,9 @@
     <script src="plugins/kindeditor/kindeditor-all-min.js"></script>
     <script src="plugins/kindeditor/lang/zh-CN.js"></script>
     <script type="text/javascript">
-        var editor;
         KindEditor.ready(function(K) {
             window.editor = K.create('#illness');
+            var editor = K.create('textarea[name="illness"]', options);
         });
         $(function () {
             //隐藏错误提示框
@@ -307,12 +318,55 @@
 
         });
 
-        function employeeAdd() {
+        function diagnoseAdd() {
             reset();
             $("#modalAdd").modal('show');
+            $("#jqGridOutput").jqGrid({
+                url: 'outputs/list',
+                datatype: "json",
+                colModel: [
+                    {label: 'outputId', name: 'outputId', index: 'outputId', width: 50, hidden: true, key: true},
+                    {label: '领药人', name: 'employeeName', index: 'employeeName', sortable: false, width: 80},
+                    {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
+                    {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
+                    {label: '出库数量', name: 'outputNum', index: 'outputNum', sortable: false, width: 80},
+                    {label: '有效期', name: 'duration', index: 'duration', sortable: false, width: 80},
+                    {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
+                ],
+                height: 285,
+                rowNum: 5,
+                rowList: [5, 10, 30],
+                styleUI: 'Bootstrap',
+                loadtext: '信息读取中...',
+                rownumbers: true,
+                rownumWidth: 60,
+                autowidth: false,
+                multiselect: true,
+                pager: "#jqGridPagerOutput",
+                jsonReader: {
+                    root: "data.list",
+                    page: "data.currPage",
+                    total: "data.totalPage",
+                    records: "data.totalCount"
+                },
+                prmNames: {
+                    page: "page",
+                    rows: "limit",
+                    order: "order"
+                },
+                gridComplete: function () {
+                    //隐藏grid底部滚动条
+                    $("#jqGridOutput").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+                }
+
+            });
+
+            $(window).resize(function () {
+                $("#jqGridOutput").setGridWidth($(".card-body").width());
+            });
         }
 
-        function employeeEdit() {
+        function diagnoseEdit() {
             reset();
             //获取到当前需要修改的记录的主键
             var grid = $("#jqGrid");
@@ -326,7 +380,7 @@
                 alert("只能选择选择一条记录");
                 return;
             }
-            var employeeId = selectIDs[0];
+            var diagnoseId = selectIDs[0];
             $("#employeeId").val(employeeId);
             var rowData = $("#jqGrid").jqGrid("getRowData", rowKey);
             $("#employeeNameEdit").val(rowData.employeeName);
@@ -336,12 +390,10 @@
             $("#modalEdit").modal('show');
         }
 
-        function employeeDelete(){
+        function diagnoseDelete(){
             var grid = $("#jqGrid");
             var rowKey = grid.getGridParam("selrow");
             if (!rowKey) {
-
-
                 alert("请选择一条记录");
                 return;
             }
@@ -351,15 +403,12 @@
                 return;
             }
             var rowData = $("#jqGrid").jqGrid("getRowData", rowKey);
-            var employeeId = rowData.id;
-            var employeeName = rowData.employeeName;
-            var account = rowData.account;
-            var income = rowData.income;
-            var data = {"id": employeeId, "employeeName": employeeName, "account": account, "income": income};
+            var diagnoseId = rowData.diagnoseId;
+            var data = {"diagnoseId": diagnoseId};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: 'employees/stopUse',//url
+                url: 'diagnoses/stopUse',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {
@@ -379,13 +428,14 @@
         }
 
         $('#saveButton').click(function () {
+            editor.sync();
             var employeeId = $('#employeeId').val();
             var illness = $('#illness').val();
             var data = {"employeeId": employeeId, "illness": illness};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: '/save',//url
+                url: 'diagnoses/save',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {

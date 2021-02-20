@@ -59,4 +59,18 @@ public class DiagnoseController {
             return ResultGenerator.genFailResult("修改失败");
         }
     }
+
+    @PostMapping(value = "/stopUse")
+    public Result diagnoseStopUse(@RequestBody Diagnose diagnose) {
+        if (diagnose.getDiagnoseId() == null) {
+            return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常，缺少ID");
+        }
+
+        //修改数据
+        if (diagnoseService.stopUse(diagnose) > 0) {
+            return ResultGenerator.genSuccessResult();
+        } else {
+            return ResultGenerator.genFailResult("修改失败");
+        }
+    }
 }

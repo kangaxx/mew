@@ -6,6 +6,7 @@
         <id property="diagnoseId" column="diagnose_id" jdbcType="INTEGER"/>
         <result property="illness" column="illness" jdbcType="VARCHAR"/>
         <result property="employeeId" column="employee_id" jdbcType="BIGINT"/>
+        <result property="employeeName" column="employee_name" jdbcType="VARCHAR"/>
         <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -14,9 +15,10 @@
         update tb_diagnose set illness = #{newIllness} where diagnose_id = #{diagnoseId} and is_deleted = 0
     </update>
     <select id="findDiagnose" parameterType="Map"  resultMap="DiagnoseResult">
-        select diagnose_id, employee_id, illness, create_time
-        from tb_diagnose
-        where is_deleted = 0
+        select diagnose_id, d.employee_id, e.employee_name, illness, d.create_time
+        from tb_diagnose d, tb_employee e
+        where d.is_deleted = 0
+        and d.employee_id = e.id
         order by diagnose_id desc
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}
@@ -31,10 +33,10 @@
             order:select last_insert_id()执行顺序，相对于insert语句来说它的执行顺序。
             resultType:指定select last_insert_id()的结果类型，也就是id的类型;
         -->
-        <selectKey keyProperty="diagnose_id" order="AFTER" resultType="java.lang.Integer">
+        <selectKey keyProperty="diagnoseId" order="AFTER" resultType="java.lang.Integer">
             select last_insert_id()
         </selectKey>
         insert into tb_diagnose(illness, employee_id)
-        values(#{drugName}, #{employeeId})
+        values(#{illness}, #{employeeId})
     </insert>
 </mapper>

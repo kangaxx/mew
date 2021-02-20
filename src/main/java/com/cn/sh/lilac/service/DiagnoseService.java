@@ -32,6 +32,8 @@ public interface DiagnoseService {
     int update(Diagnose diagnose);
     /**
      * 删除数据
+     * @param diagnose
+     * @return
      */
-    int del(Diagnose diagnose);
+    int stopUse(Diagnose diagnose);
 }

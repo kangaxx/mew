@@ -36,7 +36,7 @@ public class DiagnoseServiceImpl implements  DiagnoseService{
     }
 
     @Override
-    public int del(Diagnose diagnose) {
+    public int stopUse(Diagnose diagnose) {
         return diagnoseDao.stopUse(diagnose.getDiagnoseId());
     }
 }

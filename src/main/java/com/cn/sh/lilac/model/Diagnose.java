@@ -14,6 +14,7 @@ public class Diagnose {
     private Integer diagnoseId;
     private String illness;
     private Long employeeId;
+    private String employeeName;
     /**
      * 是否已删除 0未删除 1已删除
      */
@@ -32,6 +33,8 @@ public class Diagnose {
 
     public void setEmployeeId(Long employeeId) { this.employeeId = employeeId; }
     public Long getEmployeeId() { return this.employeeId; }
+    public void setEmployeeName(String employeeName) { this.employeeName = employeeName; }
+    public String getEmployeeName() { return this.employeeName; }
 
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
