@@ -198,6 +198,9 @@
                                     <!-- 数据展示列表，id 为 jqGrid -->
                                     <table id="jqGridEmployee" class="table table-bordered">
                                     </table>
+                                    <button type="button" class="btn btn-danger" id="delButton"><i
+                                            class="fa fa-times"></i>删除
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -409,6 +412,43 @@
             });
         }
 
+        $('#delButton').click(function (){
+            var grid = $("#jqGridEmployee");
+            var rowKey = grid.getGridParam("selrow");
+            if (!rowKey) {
+                alert("请选择一条记录");
+                return;
+            }
+            var selectIDs = grid.getGridParam("selarrrow");
+            if (selectIDs.length > 1) {
+                alert("只能选择选择一条记录");
+                return;
+            }
+            var rowData = $("#jqGridEmployee").jqGrid("getRowData", rowKey);
+            var outputId = rowData.outputId;
+            var data = {"outputId": outputId};
+            $.ajax({
+                type: 'POST',//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: 'outputs/stopUse',//url
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.resultCode == 200) {
+                        alert("删除成功");
+                        reload();
+                    }
+                    else {
+                        alert(result.message);
+                    }
+                    ;
+                },
+                error: function () {
+                    alert("操作失败");
+                }
+            });
+        })
+
         $('#saveButton').click(function () {
             var inputId = $('#inputId').val();
             var drugId = $('#drugId').val();
@@ -426,6 +466,7 @@
                 success: function (result) {
                     if (result.resultCode == 200) {
                         alert("保存成功");
+                        reset();
                         reload();
                     }
                     else {
