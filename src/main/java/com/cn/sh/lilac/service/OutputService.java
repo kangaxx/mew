@@ -13,7 +13,7 @@ import java.util.List;
 public interface OutputService {
     /**
      * 获取分页列表
-     * @param pageUtil
+     * @param pageUtilEx
      * @return
      */
     PageResult getOutputPage(PageUtilEx pageUtilEx);
@@ -40,4 +40,6 @@ public interface OutputService {
      * 删除领药信息
      */
     int stopUse(Output output);
+
+    PageResult getOutputPageEx(PageUtilEx pageUtilEx);
 }

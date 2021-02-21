@@ -37,6 +37,15 @@ public class OutputController {
         return ResultGenerator.genSuccessResult(outputPage);
     }
 
+    @RequestMapping(value = "/listByEmployeeId", method = RequestMethod.GET)
+    public Result List(@RequestParam Map<String, Object> params) {
+        if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {
+            return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常！");
+        }
+        PageUtilEx pageUtilEx = new PageUtilEx(params);
+        PageResult outputPage = outputService.getOutputPageEx(pageUtilEx);
+        return ResultGenerator.genSuccessResult(outputPage);
+    }
     @PostMapping(path = "/save")
     public Result save(@RequestBody Output output) {
         if (!StringUtils.hasLength(output.getDrugId().toString())) {

@@ -48,4 +48,15 @@ public class OutputServiceImpl implements OutputService{
     public int stopUse(Output output) {
         return outputDao.stopUse(output.getOutputId());
     }
+
+    @Override
+    public PageResult getOutputPageEx(PageUtilEx pageUtilEx) {
+        //当前数据列表
+        List<Output> outputList = outputDao.findOutputsEx(pageUtilEx);
+        //获取总条数计算分页
+        int total = outputDao.getTotalOutputEx(pageUtilEx);
+        //封装为PageResult
+        PageResult pageResult = new PageResult(outputList, total, pageUtilEx.getLimit(), pageUtilEx.getPage());
+        return pageResult;
+    }
 }

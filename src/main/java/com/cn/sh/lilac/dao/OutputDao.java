@@ -1,6 +1,7 @@
 package com.cn.sh.lilac.dao;
 
 import com.cn.sh.lilac.model.Output;
+import com.cn.sh.lilac.utils.PageUtilEx;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +29,7 @@ public interface OutputDao {
      */
     List<Output> findOutputsByInputId(Long inputId);
 
+    List<Output> findOutputsEx(Map param);
+
+    int getTotalOutputEx(Map param);
 }

@@ -49,6 +49,24 @@
         select count(*) from tb_output
         where is_deleted=0
     </select>
+    <select id="findOutputsEx" parameterType="Map" resultMap="OutputResult">
+        select
+        <include refid="Base_Column_List"/>
+        ,d.drug_name, e.employee_name, o.create_time
+        from tb_output o, tb_employee e, tb_drug d
+        where o.is_deleted = 0
+        and e.id = o.employee_id
+        and o.employee_id=#{employeeId}
+        and d.drug_id = o.drug_id
+        order by output_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalOutputEx" parameterType="Map" resultType="int">
+        select count(*) from tb_output
+        where is_deleted=0 and employee_id = #{employeeId}
+    </select>
     <select id="findOutputsByInputId" resultMap="OutputResult">
         select
         <include refid="Base_Column_List"/>
