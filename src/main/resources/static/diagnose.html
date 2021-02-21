@@ -163,7 +163,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="illness" class="control-label">诊断报告:</label>
+                                <label for="illness" class="control-label">病情简述:</label>
                                 <textarea id="illness" name="content" style="width:800px;height:200px;margin:0 auto">
                                 </textarea>
                             </div>
@@ -323,6 +323,9 @@
             $("#modalAdd").modal('show');
             $("#jqGridOutput").jqGrid({
                 url: 'outputs/list',
+                postData: {
+                    diagnoseId: function() { return $("#filter").val(); },
+                },
                 datatype: "json",
                 colModel: [
                     {label: 'outputId', name: 'outputId', index: 'outputId', width: 50, hidden: true, key: true},
@@ -354,16 +357,10 @@
                     rows: "limit",
                     order: "order"
                 },
-                gridComplete: function () {
-                    //隐藏grid底部滚动条
-                    $("#jqGridOutput").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
-                }
+
 
             });
 
-            $(window).resize(function () {
-                $("#jqGridOutput").setGridWidth($(".card-body").width());
-            });
         }
 
         function diagnoseEdit() {

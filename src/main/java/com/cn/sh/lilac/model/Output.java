@@ -32,6 +32,10 @@ public class Output {
     private Long drugId;
     private String drugName;
     /**
+     * 问诊编号
+     */
+    private int diagnoseId;
+    /**
      * 价格
      */
     private BigDecimal price;
@@ -75,6 +79,9 @@ public class Output {
 
     public void setDrugName(String drugName) { this.drugName = drugName; }
     public String getDrugName() { return this.drugName; }
+
+    public void setDiagnoseId(int diagnoseId) { this.diagnoseId = diagnoseId; }
+    public int getDiagnoseId() { return this.diagnoseId; }
 
     public void setPrice(BigDecimal price) { this.price = price;}
     public BigDecimal getPrice() { return this.price; }

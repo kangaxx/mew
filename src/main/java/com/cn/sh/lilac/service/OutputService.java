@@ -3,7 +3,7 @@ package com.cn.sh.lilac.service;
 import com.cn.sh.lilac.model.Input;
 import com.cn.sh.lilac.model.Output;
 import com.cn.sh.lilac.utils.PageResult;
-import com.cn.sh.lilac.utils.PageUtil;
+import com.cn.sh.lilac.utils.PageUtilEx;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface OutputService {
      * @param pageUtil
      * @return
      */
-    PageResult getOutputPage(PageUtil pageUtil);
+    PageResult getOutputPage(PageUtilEx pageUtilEx);
 
     /**
      * 新增药品记录

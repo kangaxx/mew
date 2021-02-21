@@ -11,7 +11,6 @@ public class PageUtil extends LinkedHashMap<String, Object> {
     private int page;
     //每页条数
     private int limit;
-
     public PageUtil(Map<String, Object> params) {
         this.putAll(params);
 

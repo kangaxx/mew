@@ -3,7 +3,7 @@ package com.cn.sh.lilac.service;
 import com.cn.sh.lilac.dao.OutputDao;
 import com.cn.sh.lilac.model.Output;
 import com.cn.sh.lilac.utils.PageResult;
-import com.cn.sh.lilac.utils.PageUtil;
+import com.cn.sh.lilac.utils.PageUtilEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ public class OutputServiceImpl implements OutputService{
     OutputDao outputDao;
 
     @Override
-    public PageResult getOutputPage(PageUtil pageUtil) {
+    public PageResult getOutputPage(PageUtilEx pageUtilEx) {
         //当前数据列表
-        List<Output> outputList = outputDao.findOutputs(pageUtil);
+        List<Output> outputList = outputDao.findOutputs(pageUtilEx);
         //获取总条数计算分页
-        int total = outputDao.getTotalOutput(pageUtil);
+        int total = outputDao.getTotalOutput(pageUtilEx);
         //封装为PageResult
-        PageResult pageResult = new PageResult(outputList, total, pageUtil.getLimit(), pageUtil.getPage());
+        PageResult pageResult = new PageResult(outputList, total, pageUtilEx.getLimit(), pageUtilEx.getPage());
         return pageResult;
     }
 

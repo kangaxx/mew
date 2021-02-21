@@ -9,6 +9,7 @@ import com.cn.sh.lilac.model.Output;
 import com.cn.sh.lilac.service.OutputService;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
+import com.cn.sh.lilac.utils.PageUtilEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class OutputController {
         if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {
             return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常！");
         }
-        PageUtil pageUtil = new PageUtil(params);
-        PageResult outputPage = outputService.getOutputPage(pageUtil);
+        PageUtilEx pageUtilEx = new PageUtilEx(params);
+        PageResult outputPage = outputService.getOutputPage(pageUtilEx);
         return ResultGenerator.genSuccessResult(outputPage);
     }
 
