@@ -3,23 +3,17 @@ package com.cn.sh.lilac.controller;
 import com.cn.sh.lilac.common.Constants;
 import com.cn.sh.lilac.common.Result;
 import com.cn.sh.lilac.common.ResultGenerator;
-import com.cn.sh.lilac.model.Drug;
 import com.cn.sh.lilac.model.Employee;
 import com.cn.sh.lilac.service.EmployeeService;
 import com.cn.sh.lilac.utils.ExcelUtils;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtil;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,6 +33,7 @@ import java.util.Random;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
+
     private final int employeeStartRowNum = 6; //标准excel格式文档第七行开始
     private final int nameColumnNum = 0; // 姓名在第一列
     private final int incomeColumnNum = 3; //月收入在第四列
@@ -139,10 +134,8 @@ public class EmployeeController {
         double income = 0;
         try {
             //分析excel文件
-            maxRowNum = ExcelUtils.getMaxRowNum(file, 0) - 3; //最后三行是统计数据
-//            employeeName = ExcelUtils.getStringValue(file, 0, 6, 0);
-//            account = ExcelUtils.getNumValue(file, 0,6, 25);
-//            income = ExcelUtils.getNumValue(file, 0,6, 22);
+            maxRowNum = ExcelUtils.getMaxRowNum(file, 0) - 3;
+            //最后三行是统计数据
             List<List<Object>> list = ExcelUtils.getCourseListByExcel(file);
 
             for (int i = employeeStartRowNum; i <= maxRowNum; i++) {

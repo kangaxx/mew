@@ -4,7 +4,6 @@ import com.cn.sh.lilac.common.Constants;
 import com.cn.sh.lilac.common.Result;
 import com.cn.sh.lilac.common.ResultGenerator;
 import com.cn.sh.lilac.model.Drug;
-import com.cn.sh.lilac.model.Employee;
 import com.cn.sh.lilac.service.DrugService;
 import com.cn.sh.lilac.utils.ExcelUtils;
 import com.cn.sh.lilac.utils.PageResult;
@@ -40,6 +39,15 @@ public class DrugController {
     @Autowired
     private DrugService drugService;
 
+    private final int drugStartRowRum = 6;
+    // 姓名在第一列
+    private final int nameColumnNum = 0;
+    //月收入在第四列
+    private final int drugPriceColumnNum = 3;
+    //账户结余在第八列
+    private final int drugUnitColumnNum = 7;
+    //无效列数量
+    private final int unusedRow = 3;
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result list(@RequestParam Map<String, Object> params) {
         if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {
@@ -128,4 +136,70 @@ public class DrugController {
         return drugService.findAll();
     }
 
+    /**
+     * 通过excel文件，批量增加课程
+     *
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public String upload(@RequestParam("file") MultipartFile file) {
+        //获取文件
+        if (file.isEmpty()) {
+            return "上传失败";
+        }
+        //生成新文件名，用于保存
+        String fileName = file.getOriginalFilename();
+        String suffixName = fileName.substring(fileName.lastIndexOf("."));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        Random r = new Random();
+        StringBuilder tempName = new StringBuilder();
+        //20201014_13021325.png
+        tempName.append(sdf.format(new Date())).append(r.nextInt(100)).append(suffixName);
+        String newFileName = tempName.toString();
+        int maxRowNum = 0;
+        int uploadNum = 0;
+        String drugName = "";
+        BigDecimal drugPrice = BigDecimal.ZERO;
+        String drugUnit = "";
+        try {
+            //分析excel文件
+            maxRowNum = ExcelUtils.getMaxRowNum(file, 0) - unusedRow;
+            //最后三行是统计数据
+            List<List<Object>> list = ExcelUtils.getCourseListByExcel(file);
+
+            for (int i = drugStartRowRum; i <= maxRowNum; i++) {
+                drugName = ExcelUtils.getStringValue(file, 0, i, nameColumnNum);
+                drugPrice = ExcelUtils.getBigDecimalValue(file, 0, i, drugPriceColumnNum);
+                drugUnit = ExcelUtils.getStringValue(file, 0, i, drugUnitColumnNum);
+
+                //不允许添加同名的员工，目前规定如此
+                Drug drug = new Drug();
+                drug.setDrugName(drugName);
+                drug.setDrugPrice(drugPrice);
+                drug.setDrugUnit(drugUnit);
+
+
+                Drug temp = drugService.selectDrugByName(drug.getDrugName());
+                if (temp != null) {
+                    continue; //不能添加重复员工
+                }
+                if (drugService.save(drug) > 0) { uploadNum++;}
+            }
+
+
+            // 保存文件
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get("C:\\upload\\" + newFileName);
+            Files.write(path, bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (java.lang.Exception e) {
+            e.printStackTrace();
+        }
+
+        return "导入完成， 总数" + maxRowNum + " 导入:" + uploadNum + " <a href=\"/employee.html\">返回</a>";
+    }
 }

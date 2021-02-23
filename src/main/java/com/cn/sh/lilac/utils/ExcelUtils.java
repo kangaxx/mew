@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -168,5 +169,19 @@ public class ExcelUtils {
             throw new Exception(String.format("sheet[%] 的内容为空", sheetIndex));
         }
         return sheet.getRow(rowNum).getCell(cellNum).getNumericCellValue();
+    }
+
+    public static BigDecimal getBigDecimalValue(MultipartFile file, int sheetIndex, int rowNum, int cellNum) throws Exception {
+        String fileName = file.getOriginalFilename();
+        InputStream in = file.getInputStream();
+        Workbook work = getWorkbook(in, fileName);
+        if (null == work) {
+            throw new Exception("创建excel工作簿为空！");
+        }
+        Sheet sheet = work.getSheetAt(sheetIndex);
+        if (null == sheet) {
+            throw new Exception(String.format("sheet[%] 的内容为空", sheetIndex));
+        }
+        return new BigDecimal(sheet.getRow(rowNum).getCell(cellNum).getNumericCellValue());
     }
 }
