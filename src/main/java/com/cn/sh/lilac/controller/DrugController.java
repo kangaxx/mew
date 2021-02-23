@@ -40,12 +40,10 @@ public class DrugController {
     private DrugService drugService;
 
     private final int drugStartRowRum = 6;
-    // 姓名在第一列
-    private final int nameColumnNum = 0;
-    //月收入在第四列
-    private final int drugPriceColumnNum = 3;
-    //账户结余在第八列
-    private final int drugUnitColumnNum = 7;
+    private final int nameColumnNum = 1;
+    private final int drugTradeNameColumnNum = 2;
+    private final int drugPriceColumnNum = 4;
+    private final int drugUnitColumnNum = 2;
     //无效列数量
     private final int unusedRow = 3;
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -164,6 +162,7 @@ public class DrugController {
         String drugName = "";
         BigDecimal drugPrice = BigDecimal.ZERO;
         String drugUnit = "";
+        String drugTradeName = "";
         try {
             //分析excel文件
             maxRowNum = ExcelUtils.getMaxRowNum(file, 0) - unusedRow;
@@ -174,13 +173,14 @@ public class DrugController {
                 drugName = ExcelUtils.getStringValue(file, 0, i, nameColumnNum);
                 drugPrice = ExcelUtils.getBigDecimalValue(file, 0, i, drugPriceColumnNum);
                 drugUnit = ExcelUtils.getStringValue(file, 0, i, drugUnitColumnNum);
+                drugTradeName = ExcelUtils.getStringValueSafe(file, 0, i, drugTradeNameColumnNum, drugName);
 
                 //不允许添加同名的员工，目前规定如此
                 Drug drug = new Drug();
                 drug.setDrugName(drugName);
                 drug.setDrugPrice(drugPrice);
                 drug.setDrugUnit(drugUnit);
-
+                drug.setDrugTradeName(drugTradeName);
 
                 Drug temp = drugService.selectDrugByName(drug.getDrugName());
                 if (temp != null) {

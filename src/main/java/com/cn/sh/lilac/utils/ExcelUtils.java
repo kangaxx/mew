@@ -9,7 +9,9 @@ package com.cn.sh.lilac.utils;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.StringUtil;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 
 import java.io.InputStream;
@@ -156,7 +158,21 @@ public class ExcelUtils {
         return sheet.getRow(rowNum).getCell(cellNum).getStringCellValue();
     }
 
-
+    public static String getStringValueSafe(MultipartFile file, int sheetIndex, int rowNum, int cellNum, String safeCode) throws Exception {
+        String fileName = file.getOriginalFilename();
+        InputStream in = file.getInputStream();
+        Workbook work = getWorkbook(in, fileName);
+        if (null == work) {
+            throw new Exception("创建excel工作簿为空！");
+        }
+        Sheet sheet = work.getSheetAt(sheetIndex);
+        if (null == sheet) {
+            throw new Exception(String.format("sheet[%] 的内容为空", sheetIndex));
+        }
+        String result = sheet.getRow(rowNum).getCell(cellNum).getStringCellValue();
+        if (StringUtils.isEmpty(result)) return safeCode;
+        return result;
+    }
     public static Double getNumValue(MultipartFile file, int sheetIndex, int rowNum, int cellNum) throws Exception {
         String fileName = file.getOriginalFilename();
         InputStream in = file.getInputStream();
