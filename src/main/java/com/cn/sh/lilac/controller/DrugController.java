@@ -43,7 +43,7 @@ public class DrugController {
     private final int nameColumnNum = 1;
     private final int drugTradeNameColumnNum = 2;
     private final int drugPriceColumnNum = 4;
-    private final int drugUnitColumnNum = 2;
+    private final int drugUnitColumnNum = 3;
     //无效列数量
     private final int unusedRow = 3;
     @RequestMapping(value = "/list", method = RequestMethod.GET)
