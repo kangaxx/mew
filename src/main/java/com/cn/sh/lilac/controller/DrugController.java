@@ -39,7 +39,7 @@ public class DrugController {
     @Autowired
     private DrugService drugService;
 
-    private final int drugStartRowRum = 6;
+    private final int drugStartRowRum = 3;
     private final int nameColumnNum = 1;
     private final int drugTradeNameColumnNum = 2;
     private final int drugPriceColumnNum = 4;
@@ -170,23 +170,30 @@ public class DrugController {
             List<List<Object>> list = ExcelUtils.getCourseListByExcel(file);
 
             for (int i = drugStartRowRum; i <= maxRowNum; i++) {
-                drugName = ExcelUtils.getStringValue(file, 0, i, nameColumnNum);
-                drugPrice = ExcelUtils.getBigDecimalValue(file, 0, i, drugPriceColumnNum);
-                drugUnit = ExcelUtils.getStringValue(file, 0, i, drugUnitColumnNum);
-                drugTradeName = ExcelUtils.getStringValueSafe(file, 0, i, drugTradeNameColumnNum, drugName);
+                try {
+                    drugName = ExcelUtils.getStringValue(file, 0, i, nameColumnNum);
+                    drugPrice = ExcelUtils.getBigDecimalValue(file, 0, i, drugPriceColumnNum);
+                    drugUnit = ExcelUtils.getStringValue(file, 0, i, drugUnitColumnNum);
+                    drugTradeName = ExcelUtils.getStringValueSafe(file, 0, i, drugTradeNameColumnNum, drugName);
 
-                //不允许添加同名的员工，目前规定如此
-                Drug drug = new Drug();
-                drug.setDrugName(drugName);
-                drug.setDrugPrice(drugPrice);
-                drug.setDrugUnit(drugUnit);
-                drug.setDrugTradeName(drugTradeName);
+                    //不允许添加同名的员工，目前规定如此
+                    Drug drug = new Drug();
+                    drug.setDrugName(drugName);
+                    drug.setDrugPrice(drugPrice);
+                    drug.setDrugUnit(drugUnit);
+                    drug.setDrugTradeName(drugTradeName);
 
-                Drug temp = drugService.selectDrugByName(drug.getDrugName());
-                if (temp != null) {
-                    continue; //不能添加重复员工
+                    Drug temp = drugService.selectDrugByName(drug.getDrugName());
+                    if (temp != null) {
+                        continue; //不能添加重复
+                    }
+                    if (drugService.save(drug) > 0) {
+                        uploadNum++;
+                    }
+                } catch (Exception e) {
+
                 }
-                if (drugService.save(drug) > 0) { uploadNum++;}
+
             }
 
 
