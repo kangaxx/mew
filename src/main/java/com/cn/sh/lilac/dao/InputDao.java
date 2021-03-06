@@ -30,4 +30,5 @@ public interface InputDao {
     Input getInputByDrugIdAndDuration(Long drugId, Date duration);
 
     List<Input> getInputsByDrugId(Long drugId);
+
 }

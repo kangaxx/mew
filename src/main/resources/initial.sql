@@ -84,3 +84,14 @@ CREATE TABLE tb_diagnose (`diagnose_id` int AUTO_INCREMENT,
     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
 	PRIMARY KEY (`diagnose_id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='诊断信息表';
+
+DROP TABLE IF EXISTS `tb_wastage`;
+CREATE TABLE tb_wastage (`wastage_id` int AUTO_INCREMENT,
+	`input_id` Long NOT NULL,
+	`drug_id` Long NOT NULL,
+	`wastage_num` DECIMAL(9,4) NOT NULL,
+	`wastage_reason` VARCHAR(2000),
+	`is_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否已删除 0未删除 1已删除',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+	PRIMARY KEY (`wastage_id`)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='损耗信息表';
