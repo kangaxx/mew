@@ -1,6 +1,7 @@
 package com.cn.sh.lilac.dao;
 
 import com.cn.sh.lilac.model.Input;
+import com.cn.sh.lilac.model.Output;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;

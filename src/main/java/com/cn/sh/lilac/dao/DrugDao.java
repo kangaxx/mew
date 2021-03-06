@@ -39,4 +39,6 @@ public interface DrugDao {
     int stopUse(@Param("drugId") Long drugId);
 
     List<Drug> findAll();
+    List<Drug> findDrugsEx(Map param);
+    int getTotalDrugEx(Map param);
 }

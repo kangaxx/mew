@@ -33,12 +33,22 @@
         select drug_id, drug_name, drug_trade_name, drug_no, drug_unit, drug_price, create_time
         from tb_drug
         where is_deleted = 0
+        and (
+            drug_trade_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
+            or drug_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
+        )
         order by drug_id desc
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}
         </if>
     </select>
-    <select id="getTotalDrug" parameterType="Map" resultType="int"> select count(*) from tb_drug where is_deleted = 0</select>
+    <select id="getTotalDrug" parameterType="Map" resultType="int">
+        select count(*) from tb_drug where is_deleted = 0
+        and (
+            drug_trade_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
+            or drug_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
+        )
+    </select>
     <select id="findAll" resultMap="DrugResult">
         select drug_id, drug_name, drug_trade_name, drug_no, drug_unit, drug_price, create_time
         from tb_drug
@@ -51,5 +61,4 @@
         where drug_id = #{drugId} and is_deleted = 0
     </update>
     <update id="stopUse">update tb_drug set is_deleted = 1 where drug_id = #{drugId} and is_deleted = 0</update>
-
 </mapper>

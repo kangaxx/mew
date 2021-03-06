@@ -165,7 +165,7 @@ public class DrugController {
         String drugTradeName = "";
         try {
             //分析excel文件
-            maxRowNum = ExcelUtils.getMaxRowNum(file, 0) - unusedRow;
+            maxRowNum = ExcelUtils.getMaxRowNum(file, 0) - unusedRow - drugStartRowRum + 1;
             //最后三行是统计数据
             List<List<Object>> list = ExcelUtils.getCourseListByExcel(file);
 

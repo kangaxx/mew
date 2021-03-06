@@ -16,6 +16,7 @@ import org.thymeleaf.util.StringUtils;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -155,7 +156,14 @@ public class ExcelUtils {
         if (null == sheet) {
             throw new Exception(String.format("sheet[%] 的内容为空", sheetIndex));
         }
-        return sheet.getRow(rowNum).getCell(cellNum).getStringCellValue();
+        switch (sheet.getRow(rowNum).getCell(cellNum).getCellType()){
+            case NUMERIC:
+                return String.valueOf(sheet.getRow(rowNum).getCell(cellNum).getNumericCellValue());
+            case STRING:
+                return sheet.getRow(rowNum).getCell(cellNum).getStringCellValue();
+            default:
+                throw new Exception("GetStringValue Error, cell type error!");
+        }
     }
 
     public static String getStringValueSafe(MultipartFile file, int sheetIndex, int rowNum, int cellNum, String safeCode) throws Exception {
@@ -173,6 +181,41 @@ public class ExcelUtils {
         if (StringUtils.isEmpty(result)) return safeCode;
         return result;
     }
+
+    public static Date getDateValue(MultipartFile file, int sheetIndex, int rowNum, int cellNum) throws Exception {
+        String fileName = file.getOriginalFilename();
+        InputStream in = file.getInputStream();
+        Workbook work = getWorkbook(in, fileName);
+        if (null == work) {
+            throw new Exception("创建excel工作簿为空！");
+        }
+        Sheet sheet = work.getSheetAt(sheetIndex);
+        if (null == sheet) {
+            throw new Exception(String.format("sheet[%] 的内容为空", sheetIndex));
+        }
+        SimpleDateFormat sdf = null;
+        switch (sheet.getRow(rowNum).getCell(cellNum).getCellType()){
+            case STRING:
+                sdf = new SimpleDateFormat("yyyy-MM-dd");
+                return sdf.parse(sheet.getRow(rowNum).getCell(cellNum).getStringCellValue());
+            case NUMERIC:
+                //1、判断是否是数值格式
+                short format = sheet.getRow(rowNum).getCell(cellNum).getCellStyle().getDataFormat();
+                if(format == 14 || format == 31 || format == 57 || format == 58){
+                    //日期
+                    sdf = new SimpleDateFormat("yyyy-MM-dd");
+                }else if (format == 20 || format == 32) {
+                    //时间
+                    sdf = new SimpleDateFormat("HH:mm");
+                }
+                double value = sheet.getRow(rowNum).getCell(cellNum).getNumericCellValue();
+                Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
+                return sdf.parse(sdf.format(date));
+            default:
+                throw new Exception("Error , get Date cell failed!");
+        }
+    }
+
     public static Double getNumValue(MultipartFile file, int sheetIndex, int rowNum, int cellNum) throws Exception {
         String fileName = file.getOriginalFilename();
         InputStream in = file.getInputStream();
@@ -198,6 +241,27 @@ public class ExcelUtils {
         if (null == sheet) {
             throw new Exception(String.format("sheet[%] 的内容为空", sheetIndex));
         }
-        return new BigDecimal(sheet.getRow(rowNum).getCell(cellNum).getNumericCellValue());
+        switch (sheet.getRow(rowNum).getCell(cellNum).getCellType()){
+            case NUMERIC:
+                return new BigDecimal(sheet.getRow(rowNum).getCell(cellNum).getNumericCellValue());
+            case STRING:
+                return new BigDecimal(sheet.getRow(rowNum).getCell(cellNum).getStringCellValue());
+            default:
+                throw new Exception("GetStringValue Error, cell type error!");
+        }
+    }
+
+    public static BigDecimal getBigDecimalValueFromStringCell(MultipartFile file, int sheetIndex, int rowNum, int cellNum) throws Exception {
+        String fileName = file.getOriginalFilename();
+        InputStream in = file.getInputStream();
+        Workbook work = getWorkbook(in, fileName);
+        if (null == work) {
+            throw new Exception("创建excel工作簿为空！");
+        }
+        Sheet sheet = work.getSheetAt(sheetIndex);
+        if (null == sheet) {
+            throw new Exception(String.format("sheet[%] 的内容为空", sheetIndex));
+        }
+        return new BigDecimal(sheet.getRow(rowNum).getCell(cellNum).getStringCellValue());
     }
 }
