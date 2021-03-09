@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cn.sh.lilac.dao.WastageDao">
+    <resultMap type="com.cn.sh.lilac.model.Wastage" id="WastageResult">
+        <id property="wastageId" column="wastage_id" jdbcType="BIGINT"/>
+        <result property="inputId" column="input_id" jdbcType="BIGINT"/>
+        <result property="drugId" column="drug_id" jdbcType="BIGINT"/>
+        <result property="drugName" column="drug_name" jdbcType="VARCHAR"/>
+        <result property="wastageNum" column="wastage_num" jdbcType="DECIMAL"/>
+        <result property="wastageReason" column="wastage_reason" jdbcType="VARCHAR"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        wastage_id, wastage_num, wastage_reason
+    </sql>
+
+    <select id="findWastages" parameterType="Map" resultMap="WastageResult">
+        select
+        <include refid="Base_Column_List"/>
+        , d.drug_name, w.create_time
+        from tb_wastage w, tb_input i, tb_drug d
+        where w.is_deleted = 0 and w.input_id = i.input_id and i.drug_id = d.drug_id
+        order by wastage_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getTotalWastage" parameterType="Map" resultType="int">
+        select count(*) from tb_wastage
+        where is_deleted=0
+    </select>
+
+    <insert id="addWastage" parameterType="com.cn.sh.lilac.model.Wastage">
+        insert into tb_wastage(input_id, drug_id, wastage_num, wastage_reason)
+        values(#{inputId}, #{drugId}, #{wastageNum}, #{wastageReason})
+    </insert>
+
+
+    <update id="update">
+        update tb_wastage set input_id = #{newInputId}, drug_id = #{newDrugId}, wastage_num = #{newWastageNum},
+        wastage_reason = #{newWastageReason}
+        where wastage_id = #{wastageId} and is_deleted = 0
+    </update>
+
+    <update id="stopUse"> update tb_wastage set is_deleted = 1 where wastage_id = #{wastageId} and is_deleted = 0</update>
+</mapper>

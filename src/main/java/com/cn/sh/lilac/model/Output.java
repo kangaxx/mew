@@ -31,6 +31,7 @@ public class Output {
      */
     private Long drugId;
     private String drugName;
+
     /**
      * 问诊编号
      */
@@ -53,6 +54,13 @@ public class Output {
      */
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date duration;
+    /**
+     * 时间查询条件
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date durationStart;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date durationEnd;
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date createTime;
@@ -96,6 +104,12 @@ public class Output {
     public Date getDuration() {
         return duration;
     }
+
+    public void setDurationStart(Date durationStart) { this.durationStart = durationStart; }
+    public Date getDurationStart() { return this.durationStart; }
+
+    public void setDurationEnd(Date durationEnd) { this.durationEnd = durationEnd; }
+    public Date getDurationEnd() { return this.durationEnd; }
 
     public void setCreateTime(Date createTime) { this.createTime = createTime; }
     public Date getCreateTime() { return this.createTime; }

@@ -40,6 +40,9 @@
         where o.is_deleted = 0
         and e.id = o.employee_id
         and d.drug_id = o.drug_id
+        and o.employee_id = #{employeeId}
+        and duration &lt; #{durationEnd}
+        and duration &gt; #{durationStart}
         order by output_id desc
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>领药登记页</title>
+    <title>药品损耗管理页</title>
     <!-- jqgrid ui -->
     <link href="plugins/jqgrid-5.3.0/ui.jqgrid-bootstrap4.css" rel="stylesheet"/>
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.css">
@@ -101,12 +101,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0 text-dark">领药登记页</h1>
+                        <h1 class="m-0 text-dark">药品损耗管理页</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="index.html">主页</a></li>
-                            <li class="breadcrumb-item active">领药登记页</li>
+                            <li class="breadcrumb-item active">药品损耗管理页</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -120,31 +120,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="grid-btn">
-                                <button class="btn btn-info" onclick="outputAdd()">
+                                <button class="btn btn-info" onclick="wastageAdd()">
                                     <i class="fa fa-plus">新增</i>
                                 </button>
-                                <button class="btn btn-danger" onclick="outputDelete()"><i
+                                <button class="btn btn-danger" onclick="wastageDelete()"><i
                                         class="fa fa-times"></i>&nbsp;删除
                                 </button>
-                                <button class="btn btn-upload" style="margin-top: 20px">
-                                    <a data-toggle="modal" href="#uploadExcel" role="button"
-                                       style="color: black; text-decoration: none">
-                                        批量添加
-                                        <sapn class="glyphicon glyphicon-plus"/>
-                                    </a>
-                                </button>
                             </div>
-
-                                <label for="employeeIdSearch">姓名</label>
-                                <select id="employeeIdSearch" name="role"  title="请选择" style="">
-                                </select>
-                                <label for="durationStart" class="control-label"> 日期:</label>
-                                <input type="text" class="datepicker" id="durationStart" placeholder="请选择日期" /> ~
-                                <input type="text" class="datepicker" id="durationEnd" placeholder="请选择日期" />
-                                <button class="btn btn-info" onclick="outputSearch()">
-                                    <i class="fa fa-search">查询</i>
-                                </button>
-
                             <!-- 数据展示列表，id 为 jqGrid -->
                             <table id="jqGrid" class="table table-bordered">
                             </table>
@@ -157,64 +139,51 @@
         </div>
     </div>
 
-    <!--批量添加模态框-->
+
     <div class="content">
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAddLabel">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width:1000px;height:900px;">
+                <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h6 class="modal-title" id="modalAddTitle">添加</h6>
+                        <h6 class="modal-title" id="modalAddTitle">损耗信息添加</h6>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <form>
-                                <div class="form-group">
-                                    <div class="alert alert-danger add-error-info">错误信息展示栏。</div>
-                                </div>
-                                <input type="hidden" id="inputId" value="0">
-                                <div class="form-group">
-                                    <label for="employeeId" class="control-label">领药人</label>
-                                    <select id="employeeId" name="role" class="form-control" title="请选择" style="" onchange="selectOnEmpChange(this)">
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="drugId" class="control-label">药品名</label>
-                                    <select id="drugId" name="role" class="form-control" title="请选择" style="" onchange="selectOnDrugChange(this)">
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="duration" class="control-label"> 有效期:</label>
-                                    <select id="duration" name="role" class="form-control" title="请选择" style="" onchange="selectOnDurationChange(this)">
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputNum" class="control-label"> 剩余库存:</label>
-                                    <input type="text" class="form-control" id="inputNum" disabled>
-                                </div>
+                        <form>
+                            <div class="form-group">
+                                <div class="alert alert-danger add-error-info">错误信息展示栏。</div>
+                            </div>
+                            <input type="hidden" id="inputId" value="0">
+                            <div class="form-group">
+                                <label for="drugId" class="control-label">药品名</label>
+                                <select id="drugId" name="role" class="form-control" title="请选择" style="" onchange="selectOnDrugChange(this)">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="duration" class="control-label"> 有效期:</label>
+                                <select id="duration" name="role" class="form-control" title="请选择" style="" onchange="selectOnDurationChange(this)">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNum" class="control-label"> 剩余库存:</label>
+                                <input type="text" class="form-control" id="inputNum" disabled>
+                            </div>
 
-                                <div class="form-group">
-                                    <label for="price" class="control-label">价格</label>
-                                    <input type="text" class="form-control" id="price" disabled>
-                                </div>
-                                <div class="form-group">
-                                    <label for="outputNum" class="control-label">出库数量:</label>
-                                    <input type="text" class="form-control" id="outputNum">
-                                </div>
-                            </form>
-                            <form>
-                                <div class="form-group">
-                                    <!-- 数据展示列表，id 为 jqGrid -->
-                                    <table id="jqGridEmployee" class="table table-bordered">
-                                    </table>
-                                    <button type="button" class="btn btn-danger" id="delButton"><i
-                                            class="fa fa-times"></i>删除
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="form-group">
+                                <label for="price" class="control-label">价格</label>
+                                <input type="text" class="form-control" id="price" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="wastageNum" class="control-label">损耗数量:</label>
+                                <input type="text" class="form-control" id="wastageNum">
+                            </div>
+                            <div class="form-group">
+                                <label for="wastageReason" class="control-label">损耗原因:</label>
+                                <input type="text" class="form-control" id="wastageReason">
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -226,48 +195,85 @@
         <!-- /.modal -->
     </div>
 
+    <div class="content">
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h6 class="modal-title" id="modalEditTitle">信息编辑</h6>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" id="wastageId" value="0">
+                            <div class="form-group">
+                                <label for="wastageNameEdit" class="control-label">姓名:</label>
+                                <input type="text" class="form-control" id="wastageNameEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="accountEdit" class="control-label">账户余额(￥):</label>
+                                <input type="text" class="form-control" id="accountEdit">
+                            </div>
+                            <div class="form-group">
+                                <label for="incomeEdit" class="control-label">每月进项(￥):</label>
+                                <input type="text" class="form-control" id="incomeEdit">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" id="editButton">确认</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal -->
+
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2021 </strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 2.0
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
     <!-- ./wrapper -->
 
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
-    <script src="plugins/js/jquery.combo.select.js"></script>
-
     <!-- jQuery UI 1.11.4 -->
     <script src="plugins/jQueryUI/jquery-ui.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="plugins/jqgrid-5.3.0/grid.locale-cn.js"></script>
     <script src="plugins/jqgrid-5.3.0/jquery.jqGrid.min.js"></script>
+    <script src="dist/js/adminlte.js"></script>
     <!-- bootstrap-select -->
     <link rel="stylesheet" href="plugins/bootstrap-select-1.13.14/dist/css/bootstrap-select.min.css">
     <script src="plugins/bootstrap-select-1.13.14/dist/js/bootstrap-select.min.js"></script>
     <script src="plugins/bootstrap-select-1.13.14/dist/js/i18n/defaults-zh_CN.min.js"></script>
-    <!-- bootstrap-timepicker -->
-    <link rel="stylesheet" href="plugins/datepicker/bootstrap-datepicker.js"/>
-    <script type="text/javascript" src="plugins/datepicker/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
-    <!-- adminlte -->
-    <script src="dist/js/adminlte.js"></script>
     <script type="text/javascript">
         $(function () {
             //隐藏错误提示框
             $('.alert-danger').css("display", "none");
 
             $("#jqGrid").jqGrid({
-                url: 'outputs/list',
-                postData: {
-                    employeeId: function() { return $("#employeeIdSearch").val(); },
-                    durationStart: function() { return $("#durationStart").val(); },
-                    durationEnd: function() { return $("durationEnd").val(); }
-                },
+                url: 'wastages/list',
                 datatype: "json",
                 colModel: [
-                    {label: 'outputId', name: 'outputId', index: 'outputId', width: 50, hidden: true, key: true},
-                    {label: '领药人', name: 'employeeName', index: 'employeeName', sortable: false, width: 80},
-                    {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
-                    {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
-                    {label: '出库数量', name: 'outputNum', index: 'outputNum', sortable: false, width: 80},
-                    {label: '有效期', name: 'duration', index: 'duration', sortable: false, width: 80},
+                    {label: 'wastageId', name: 'wastageId', index: 'wastageId', width: 50, hidden: true, key: true},
+                    {label: '药品名称', name: 'drugName', index: 'drugName', sortable: false, width: 80},
+                    {label: '损耗数量', name: 'wastageNum', index: 'wastageNum', sortable: false, width: 80},
+                    {label: '损耗原因', name: 'wastageReason', index: 'wastageReason', sortable: false, width: 80},
                     {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
                 ],
                 height: 485,
@@ -295,56 +301,11 @@
                     //隐藏grid底部滚动条
                     $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
                 }
-
             });
 
             $(window).resize(function () {
                 $("#jqGrid").setGridWidth($(".card-body").width());
             });
-
-            $("#jqGridEmployee").jqGrid({
-                url: 'outputs/listByEmployeeId',
-                postData: {
-                    employeeId: function() { return $("#employeeId").val(); },
-                },
-                datatype: "json",
-                colModel: [
-                    {label: 'outputId', name: 'outputId', index: 'outputId', width: 50, hidden: true, key: true},
-                    {label: '领药人', name: 'employeeName', index: 'employeeName', sortable: false, width: 80},
-                    {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
-                    {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
-                    {label: '出库数量', name: 'outputNum', index: 'outputNum', sortable: false, width: 80},
-                    {label: '有效期', name: 'duration', index: 'duration', sortable: false, width: 80},
-                    {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
-                ],
-                height: 485,
-                rowNum: 10,
-                rowList: [10, 30, 50],
-                styleUI: 'Bootstrap',
-                loadtext: '信息读取中...',
-                rownumbers: true,
-                rownumWidth: 35,
-                autowidth: true,
-                multiselect: true,
-                pager: "#jqGridPager",
-                jsonReader: {
-                    root: "data.list",
-                    page: "data.currPage",
-                    total: "data.totalPage",
-                    records: "data.totalCount"
-                },
-                prmNames: {
-                    page: "page",
-                    rows: "limit",
-                    order: "order"
-                },
-                gridComplete: function () {
-                    //隐藏grid底部滚动条
-                    $("#jqGridEmployee").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
-                }
-
-            });
-
 
             $.ajax({
                 type: 'get',
@@ -359,42 +320,15 @@
                     $("#drugId").selectpicker("refresh");
                 }
             });
-
-            $.ajax({
-                type: 'get',
-                url: 'employees/findAll',
-                dataType: "json",
-                success: function (data) {
-                //拼接下拉框
-                    for(var i=0;i<data.length;i++){
-                        $("#employeeId").append("<option value='"+data[i].id+"'>"+data[i].employeeName+"</option>");
-                        $("#employeeIdSearch").append("<option value='"+data[i].id+"'>"+data[i].employeeName+"</option>");
-                    }
-                    //这一步不要忘记 不然下拉框没有数据
-                    $("#employeeId").selectpicker("refresh");
-                    $("#employeeIdSearch").selectpicker("refresh");
-                }
-            });
-
             $("#drugId").selectpicker({ liveSearch: true,liveSearchPlaceholder: "数据检索" });
-            $("#employeeId").selectpicker({ liveSearch: true,liveSearchPlaceholder: "数据检索" });
-            $("#employeeIdSearch").selectpicker({ liveSearch: true,liveSearchPlaceholder: "数据检索" });
-
-            $(".datepicker").datepicker({
-            language: "zh-CN",
-            autoclose: true,//选中之后自动隐藏日期选择框
-            clearBtn: true,//清除按钮
-            todayBtn: true,//今日按钮
-            format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
-        });
         });
 
-        function outputAdd() {
+        function wastageAdd() {
             reset();
             $("#modalAdd").modal('show');
         }
 
-        function outputDelete(){
+        function wastageDelete(){
             var grid = $("#jqGrid");
             var rowKey = grid.getGridParam("selrow");
             if (!rowKey) {
@@ -407,12 +341,12 @@
                 return;
             }
             var rowData = $("#jqGrid").jqGrid("getRowData", rowKey);
-            var outputId = rowData.outputId;
-            var data = {"outputId": outputId};
+            var wastageId = rowData.wastageId;
+            var data = {"wastageId": wastageId};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: 'outputs/stopUse',//url
+                url: 'wastages/stopUse',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {
@@ -430,66 +364,23 @@
                 }
             });
         }
-
-        function outputSearch() {
-            reload();
-        }
-
-        $('#delButton').click(function (){
-            var grid = $("#jqGridEmployee");
-            var rowKey = grid.getGridParam("selrow");
-            if (!rowKey) {
-                alert("请选择一条记录");
-                return;
-            }
-            var selectIDs = grid.getGridParam("selarrrow");
-            if (selectIDs.length > 1) {
-                alert("只能选择选择一条记录");
-                return;
-            }
-            var rowData = $("#jqGridEmployee").jqGrid("getRowData", rowKey);
-            var outputId = rowData.outputId;
-            var data = {"outputId": outputId};
-            $.ajax({
-                type: 'POST',//方法类型
-                dataType: "json",//预期服务器返回的数据类型
-                url: 'outputs/stopUse',//url
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(data),
-                success: function (result) {
-                    if (result.resultCode == 200) {
-                        alert("删除成功");
-                        reload();
-                    }
-                    else {
-                        alert(result.message);
-                    }
-                    ;
-                },
-                error: function () {
-                    alert("操作失败");
-                }
-            });
-        })
 
         $('#saveButton').click(function () {
             var inputId = $('#inputId').val();
             var drugId = $('#drugId').val();
-            var price = $('#price').val();
-            var outputNum = $('#outputNum').val();
-            var duration = $('#duration').val();
-            var employeeId = $('#employeeId').val();
-            var data = {"inputId": inputId, "drugId": drugId, "price": price, "outputNum": outputNum, "duration": duration, "employeeId": employeeId};
+            var wastageNum = $('#wastageNum').val();
+            var wastageReason = $('#wastageReason').val();
+            var data = {"inputId": inputId, "drugId": drugId, "wastageNum": wastageNum, "wastageReason": wastageReason};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
-                url: 'outputs/save',//url
+                url: 'wastages/save',//url
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(data),
                 success: function (result) {
                     if (result.resultCode == 200) {
                         alert("保存成功");
-                        reset();
+                        $('#modalAdd').modal('hide');
                         reload();
                     }
                     else {
@@ -502,13 +393,6 @@
                 }
             });
         })
-
-        /**
-        * 选择领药人
-        **/
-        function selectOnEmpChange(obj) {
-            $("#jqGridEmployee").trigger("reloadGrid");
-        }
 
         /**
         *读取药品入库信息
@@ -554,19 +438,14 @@
                 }
             });
         }
-
         /**
          * 重置
          */
         function reset() {
             $("#drugId").selectpicker('val',['noneSelectedText'])
             $("#drugId").selectpicker('refresh');
-            $("#duration").selectpicker('val',['noneSelectedText'])
-            $("#duration").selectpicker('refresh');
-            $("#price").val('');
-            $("#outputNum").val('');
-            $("#duration").val('');
-            $("#batchNo").val('');
+            $('#wastageNum').val('');
+            $('#wastageReason').val('');
         }
 
         /**
@@ -577,7 +456,6 @@
             $("#jqGrid").jqGrid('setGridParam', {
                 page: page
             }).trigger("reloadGrid");
-            $("#jqGridEmployee").trigger("reloadGrid");
         }
 
         $("#siderMenu").load("sider-menu.html");

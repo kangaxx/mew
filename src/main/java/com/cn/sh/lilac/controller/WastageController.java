@@ -48,10 +48,6 @@ public class WastageController {
 
     @PostMapping(path = "/save")
     public Result save(@RequestBody Wastage wastage) {
-        if (wastage.getWastageId() == null) {
-            return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常，缺少ID");
-        }
-
         if (wastage.getInputId() == null) {
             return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常，缺少药品");
         }
