@@ -29,7 +29,4 @@ public interface OutputDao {
      */
     List<Output> findOutputsByInputId(Long inputId);
 
-    List<Output> findOutputsEx(Map param);
-
-    int getTotalOutputEx(Map param);
 }

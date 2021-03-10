@@ -52,9 +52,9 @@ public class OutputServiceImpl implements OutputService{
     @Override
     public PageResult getOutputPageEx(PageUtilEx pageUtilEx) {
         //当前数据列表
-        List<Output> outputList = outputDao.findOutputsEx(pageUtilEx);
+        List<Output> outputList = outputDao.findOutputs(pageUtilEx);
         //获取总条数计算分页
-        int total = outputDao.getTotalOutputEx(pageUtilEx);
+        int total = outputDao.getTotalOutput(pageUtilEx);
         //封装为PageResult
         PageResult pageResult = new PageResult(outputList, total, pageUtilEx.getLimit(), pageUtilEx.getPage());
         return pageResult;

@@ -256,9 +256,14 @@
             $("#jqGrid").jqGrid({
                 url: 'outputs/list',
                 postData: {
-                    employeeId: function() { return $("#employeeIdSearch").val(); },
+                    employeeId: function() {
+                        if ($("#employeeIdSearch").val() == undefined || $("#employeeIdSearch").val() == null || $("#employeeIdSearch").val()=="")
+                            return 0;
+                        else
+                            return $("#employeeIdSearch").val();
+                    },
                     durationStart: function() { return $("#durationStart").val(); },
-                    durationEnd: function() { return $("durationEnd").val(); }
+                    durationEnd: function() { return $("#durationEnd").val(); }
                 },
                 datatype: "json",
                 colModel: [
@@ -326,7 +331,7 @@
                 rownumWidth: 35,
                 autowidth: true,
                 multiselect: true,
-                pager: "#jqGridPager",
+                pager: "#jqGridEmployee",
                 jsonReader: {
                     root: "data.list",
                     page: "data.currPage",
@@ -365,7 +370,7 @@
                 url: 'employees/findAll',
                 dataType: "json",
                 success: function (data) {
-                //拼接下拉框
+                    //拼接下拉框
                     for(var i=0;i<data.length;i++){
                         $("#employeeId").append("<option value='"+data[i].id+"'>"+data[i].employeeName+"</option>");
                         $("#employeeIdSearch").append("<option value='"+data[i].id+"'>"+data[i].employeeName+"</option>");
@@ -432,7 +437,9 @@
         }
 
         function outputSearch() {
-            reload();
+            $("#jqGrid").jqGrid('setGridParam', {
+                page: 1
+            }).trigger("reloadGrid");
         }
 
         $('#delButton').click(function (){
