@@ -5,6 +5,7 @@ import com.cn.sh.lilac.model.Output;
 import com.cn.sh.lilac.utils.PageResult;
 import com.cn.sh.lilac.utils.PageUtilEx;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -42,4 +43,5 @@ public interface OutputService {
     int stopUse(Output output);
 
     PageResult getOutputPageEx(PageUtilEx pageUtilEx);
+    List<Output> getTotalPrice(Output output);
 }

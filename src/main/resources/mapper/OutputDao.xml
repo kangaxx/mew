@@ -11,12 +11,13 @@
         <result property="duration" column="duration" jdbcType="TIMESTAMP"/>
         <result property="price" column="price" jdbcType="DECIMAL"/>
         <result property="outputNum" column="output_num" jdbcType="VARCHAR"/>
+        <result property="totalPrice" column="total_price" jdbcType="DECIMAL"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="drugName" column="drug_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        output_id, input_id, output_num, duration, price
+        output_id, input_id, output_num, duration, price, (output_num * price) as total_price
     </sql>
     <insert id="addOutput">
         insert into tb_output(input_id, drug_id, employee_id, price, duration, output_num)
@@ -56,6 +57,25 @@
     </select>
     <select id="getTotalOutput" parameterType="Map" resultType="int">
         select count(*) from tb_output o, tb_employee e, tb_drug d
+        where o.is_deleted = 0
+        and e.id = o.employee_id
+        and d.drug_id = o.drug_id
+        <if test="employeeId!=0">
+            and o.employee_id = #{employeeId}
+        </if>
+        <if test="employeeId!=0">
+            and o.employee_id = #{employeeId}
+        </if>
+        <if test="durationEnd!=null">
+            and o.create_time &lt;= #{durationEnd}
+        </if>
+        <if test="durationStart!=null">
+            and o.create_time &gt;= #{durationStart}
+        </if>
+    </select>
+
+    <select id="getTotalOutputPrice" parameterType="Map" resultMap="OutputResult">
+        select sum(price * output_num) as total_price from tb_output o, tb_employee e, tb_drug d
         where o.is_deleted = 0
         and e.id = o.employee_id
         and d.drug_id = o.drug_id

@@ -7,6 +7,7 @@ import com.cn.sh.lilac.utils.PageUtilEx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -58,5 +59,10 @@ public class OutputServiceImpl implements OutputService{
         //封装为PageResult
         PageResult pageResult = new PageResult(outputList, total, pageUtilEx.getLimit(), pageUtilEx.getPage());
         return pageResult;
+    }
+
+    @Override
+    public List<Output> getTotalPrice(Output output) {
+        return outputDao.getTotalOutputPrice(output);
     }
 }

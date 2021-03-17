@@ -45,6 +45,10 @@ public class Output {
      */
     private BigDecimal outputNum;
     /**
+     * 总价
+     */
+    private BigDecimal totalPrice;
+    /**
      * 领药日期
      */
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
@@ -93,6 +97,9 @@ public class Output {
 
     public void setPrice(BigDecimal price) { this.price = price;}
     public BigDecimal getPrice() { return this.price; }
+
+    public void setTotalPrice(BigDecimal totalPrice) { this.totalPrice = totalPrice;}
+    public BigDecimal getTotalPrice() { return this.totalPrice; }
 
     public void setOutputNum(BigDecimal outputNum) { this.outputNum = outputNum; }
     public BigDecimal getOutputNum() { return this.outputNum; }

@@ -4,6 +4,7 @@ import com.cn.sh.lilac.model.Output;
 import com.cn.sh.lilac.utils.PageUtilEx;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ public interface OutputDao {
     Output getOutputByOutputId(@Param("outputId") Long outputId);
     List<Output> findOutputs(Map param);
     int getTotalOutput(Map param);
+    List<Output> getTotalOutputPrice(Output output);
     /**
      * 新增记录
      *

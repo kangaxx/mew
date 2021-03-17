@@ -89,4 +89,9 @@ public class OutputController {
     public List<Output> findByInputId(@RequestBody Output output) {
         return outputService.findOutputsByInputId(output.getInputId());
     }
+
+    @PostMapping(value = "/getTotalPrice")
+    public List<Output> getTotalPrice(@RequestBody Output output) {
+        return outputService.getTotalPrice(output);
+    }
 }

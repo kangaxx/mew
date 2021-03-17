@@ -272,6 +272,7 @@
                     {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
                     {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
                     {label: '出库数量', name: 'outputNum', index: 'outputNum', sortable: false, width: 80},
+                    {label: '出库总价', name: 'totalPrice', index: 'totalPrice', sortable: false, width: 80},
                     {label: '有效期', name: 'duration', index: 'duration', sortable: false, width: 80},
                     {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
                 ],
@@ -319,6 +320,7 @@
                     {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
                     {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
                     {label: '出库数量', name: 'outputNum', index: 'outputNum', sortable: false, width: 80},
+                    {label: '出库总价', name: 'totalPrice', index: 'totalPrice', sortable: false, width: 80},
                     {label: '有效期', name: 'duration', index: 'duration', sortable: false, width: 80},
                     {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
                 ],
@@ -440,6 +442,7 @@
             $("#jqGrid").jqGrid('setGridParam', {
                 page: 1
             }).trigger("reloadGrid");
+            //查询总价
         }
 
         $('#delButton').click(function (){
