@@ -252,7 +252,10 @@
         $(function () {
             //隐藏错误提示框
             $('.alert-danger').css("display", "none");
-
+            var now = new Date();
+            $("#durationEnd").val(now.toLocaleDateString());
+            now.setMonth(now.getMonth() - 3);
+            $("#durationStart").val(now.toLocaleDateString());
             $("#jqGrid").jqGrid({
                 url: 'outputs/list',
                 postData: {
@@ -272,12 +275,21 @@
                     {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
                     {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
                     {label: '出库数量', name: 'outputNum', index: 'outputNum', sortable: false, width: 80},
-                    {label: '出库总价', name: 'totalPrice', index: 'totalPrice', sortable: false, width: 80},
+                    {label: '出库总价', name: 'totalPrice', index: 'totalPrice', summaryType: 'sum', sortable: false, width: 80},
                     {label: '有效期', name: 'duration', index: 'duration', sortable: false, width: 80},
                     {label: '添加时间', name: 'createTime', index: 'createTime', sortable: false, width: 80}
                 ],
                 height: 485,
                 rowNum: 10,
+                grouping: true,
+                groupingView: {
+                    groupField: ["createTime", "employeeName"],
+                    groupColumnShow: [true, true],
+                    groupText: ["<b style='display: inline-block;width: 130px;'>{0}</b>"],
+                    groupOrder: ["asc", "asc"],
+                    groupSummary: [false, true],
+                    groupCollapse: false
+                },
                 rowList: [10, 30, 50],
                 styleUI: 'Bootstrap',
                 loadtext: '信息读取中...',

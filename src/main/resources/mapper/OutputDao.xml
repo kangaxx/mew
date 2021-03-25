@@ -45,7 +45,7 @@
         and o.employee_id = #{employeeId}
         </if>
         <if test="durationEnd!=null">
-        and o.create_time &lt;= #{durationEnd}
+            and DATE_FORMAT(o.create_time, '%Y-%m-%d') &lt;= #{durationEnd}
         </if>
         <if test="durationStart!=null">
         and o.create_time &gt;= #{durationStart}
@@ -67,7 +67,7 @@
             and o.employee_id = #{employeeId}
         </if>
         <if test="durationEnd!=null">
-            and o.create_time &lt;= #{durationEnd}
+            and DATE_FORMAT(o.create_time, '%Y-%m-%d') &lt;= #{durationEnd}
         </if>
         <if test="durationStart!=null">
             and o.create_time &gt;= #{durationStart}
@@ -86,7 +86,7 @@
             and o.employee_id = #{employeeId}
         </if>
         <if test="durationEnd!=null">
-            and o.create_time &lt;= #{durationEnd}
+            and date_format(o.create_time, '%y-%m-%d') &lt;= #{durationEnd}
         </if>
         <if test="durationStart!=null">
             and o.create_time &gt;= #{durationStart}
