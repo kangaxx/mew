@@ -56,6 +56,16 @@ public class DrugController {
         return ResultGenerator.genSuccessResult(drugPage);
     }
 
+    @RequestMapping(value = "/reckon", method = RequestMethod.GET)
+    public Result reckon(@RequestParam Map<String, Object> params) {
+        if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {
+            return ResultGenerator.genErrorResult(Constants.RESULT_CODE_PARAM_ERROR, "参数异常！");
+        }
+        PageUtil pageUtil = new PageUtil(params);
+        PageResult drugPage = drugService.reckonDrugsByDuration(pageUtil);
+        return ResultGenerator.genSuccessResult(drugPage);
+    }
+
     @PostMapping(value = "/getDrugByDrugId")
     public Drug getDrugByDrugId(@RequestBody Drug drug) {
         return drugService.selectDrugByDrugId(drug.getDrugId());

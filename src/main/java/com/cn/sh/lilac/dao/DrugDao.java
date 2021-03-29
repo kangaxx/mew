@@ -18,6 +18,9 @@ public interface DrugDao {
     Drug getDrugByDrugId(@Param("drugId") Long drugId);
     List<Drug> findDrugs(Map param);
     int getTotalDrug(Map param);
+
+    List<Drug> reckonDrugsByDuration(Map param); //统计
+    int getTotalReckonDrugsByDuration(Map param);
     /**
      * 新增记录
      *

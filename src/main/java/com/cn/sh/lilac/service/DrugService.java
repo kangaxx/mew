@@ -17,7 +17,7 @@ public interface DrugService {
      * @return
      */
     PageResult getDrugPage(PageUtil pageUtil);
-
+    PageResult reckonDrugsByDuration(PageUtil pageUtil); //库存统计
     List<Drug> findAll();
     /**
      * 新增药品记录

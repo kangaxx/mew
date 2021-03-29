@@ -10,6 +10,8 @@
         <result property="drugNo" column="drug_no" jdbcType="VARCHAR"/>
         <result property="drugUnit" column="drug_unit" jdbcType="VARCHAR"/>
         <result property="drugPrice" column="drug_price" jdbcType="DECIMAL"/>
+        <result property="duration" column="duration" jdbcType="TIMESTAMP"/>
+        <result property="reckonNum" column="reckon_num" jdbcType="DECIMAL" />
         <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -48,6 +50,32 @@
             drug_trade_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
             or drug_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
         )
+    </select>
+    <select id="reckonDrugsByDuration" parameterType="Map"  resultMap="DrugResult">
+        select d.drug_id, d.drug_name, d.drug_trade_name, d.drug_no, d.drug_unit, d.drug_price, d.create_time,(i.input_num - ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)
+        - ifnull((select sum(wastage_num) from tb_wastage w where w.input_id = i.input_id and w.is_deleted = 0 group by w.input_id),0)
+        ) as reckon_num, i.duration
+        from tb_drug as d
+        left join tb_input i on d.drug_id = i.drug_id and i.is_deleted = 0 and duration > date(now())
+        and i.input_num > ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)
+        where (
+            drug_trade_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
+            or drug_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
+        )
+        order by d.drug_id desc
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalReckonDrugsByDuration" parameterType="Map" resultType="int">
+        select count(*) from tb_drug as d
+        left join tb_input i on d.drug_id = i.drug_id and i.is_deleted = 0 and duration > date(now())
+        and i.input_num > ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)
+        where (
+        drug_trade_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
+        or drug_name like CONCAT('%', #{drugTradeName, jdbcType=VARCHAR}, '%')
+        )
+        order by d.drug_id desc
     </select>
     <select id="findAll" resultMap="DrugResult">
         select drug_id, drug_name, drug_trade_name, drug_no, drug_unit, drug_price, create_time

@@ -39,6 +39,17 @@ public class DrugServiceImpl implements  DrugService{
     }
 
     @Override
+    public PageResult reckonDrugsByDuration(PageUtil pageUtil) {
+        //当前数据列表
+        List<Drug> drugList = drugDao.reckonDrugsByDuration(pageUtil);
+        //获取总条数计算分页
+        int total = drugDao.getTotalReckonDrugsByDuration(pageUtil);
+        //封装为PageResult
+        PageResult pageResult = new PageResult(drugList, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
+    }
+
+    @Override
     public List<Drug> findAll() {
         return drugDao.findAll();
     }

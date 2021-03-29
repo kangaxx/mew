@@ -39,7 +39,15 @@ public class Drug {
      * 生产厂家编号
      */
     private Long manufactureId;
-
+    /**
+     * 库存数量
+     */
+    private BigDecimal reckonNum;
+    /**
+     * 药品期限
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date duration;
     /**
      * 药品规格
      */
@@ -85,6 +93,11 @@ public class Drug {
     public void setDrugPrice(BigDecimal drugPrice) { this.drugPrice = drugPrice; }
     public BigDecimal getDrugPrice() { return this.drugPrice; }
 
+    public void setReckonNum(BigDecimal reckonNum) { this.reckonNum = reckonNum; }
+    public BigDecimal getReckonNum() { return this.reckonNum; }
+
+    public void setDuration(Date duration) { this.duration = duration; }
+    public Date getDuration() { return this.duration; }
 
     public void setCreateTime(Date createTime) { this.createTime = createTime; }
     public Date getCreateTime() { return this.createTime; }
