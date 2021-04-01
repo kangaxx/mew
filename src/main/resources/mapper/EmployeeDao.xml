@@ -54,6 +54,10 @@
         update tb_employee set account = #{newAccount} where id = #{employeeId} and is_deleted = 0
     </update>
 
+    <update id="decAccountByOutput">
+        update tb_employee set account = account - #{drugCost} where id = #{employeeId}
+    </update>
+
     <update id="update">
         update tb_employee set employee_name = #{newEmployeeName}, account = #{newAccount}, income = #{newIncome} where id = #{employeeId} and is_deleted = 0
     </update>

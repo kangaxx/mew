@@ -39,6 +39,10 @@ public interface EmployeeDao {
     int update(@Param("employeeId") Long employeeId, @Param("newEmployeeName") String employeeName, @Param("newAccount") BigDecimal newAccount, @Param("newIncome") BigDecimal newIncome);
 
     /**
+     * 领药扣钱
+     */
+    int decAccountByOutput(BigDecimal drugCost, Long employeeId);
+    /**
      * 删除账户信息(停用)
      */
     int stopUse(@Param("employeeId") Long employeeId);

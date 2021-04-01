@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,7 @@ public class OutputController {
         PageResult outputPage = outputService.getOutputPageEx(pageUtilEx);
         return ResultGenerator.genSuccessResult(outputPage);
     }
+
     @PostMapping(path = "/save")
     public Result save(@RequestBody Output output) {
         if (!StringUtils.hasLength(output.getDrugId().toString())) {
