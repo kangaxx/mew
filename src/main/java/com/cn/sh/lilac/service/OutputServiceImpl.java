@@ -55,9 +55,15 @@ public class OutputServiceImpl implements OutputService {
         return outputDao.findOutputsByInputId(inputId);
     }
 
+    @Transactional
     @Override
     public int stopUse(Output output) {
-        return outputDao.stopUse(output.getOutputId());
+        int result = 0;
+        BigDecimal tmp = new BigDecimal(-1.0);
+        BigDecimal totalPrice = output.getTotalPrice().multiply(tmp);
+        employeeDao.decAccountByOutput(totalPrice, output.getEmployeeId());
+        result = outputDao.stopUse(output.getOutputId());
+        return result;
     }
 
     @Override

@@ -36,7 +36,7 @@
     <select id="findOutputs" parameterType="Map" resultMap="OutputResult">
         select
         <include refid="Base_Column_List"/>
-        ,d.drug_name, e.employee_name, o.create_time
+        ,d.drug_name, o.employee_id, e.employee_name, o.create_time
         from tb_output o, tb_employee e, tb_drug d
         where o.is_deleted = 0
         and e.id = o.employee_id

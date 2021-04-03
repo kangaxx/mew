@@ -271,6 +271,7 @@
                 datatype: "json",
                 colModel: [
                     {label: 'outputId', name: 'outputId', index: 'outputId', width: 50, hidden: true, key: true},
+                    {label: '领药人编号', name: 'employeeId', index: 'employeeId', sortable: false, hidden: true, width: 80},
                     {label: '领药人', name: 'employeeName', index: 'employeeName', sortable: false, width: 80},
                     {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
                     {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
@@ -328,6 +329,7 @@
                 datatype: "json",
                 colModel: [
                     {label: 'outputId', name: 'outputId', index: 'outputId', width: 50, hidden: true, key: true},
+                    {label: '领药人编号', name: 'employeeId', index: 'employeeId', sortable: false, hidden: true, width: 80},
                     {label: '领药人', name: 'employeeName', index: 'employeeName', sortable: false, width: 80},
                     {label: '药品名', name: 'drugName', index: 'drugName', sortable: false, width: 80},
                     {label: '价格', name: 'price', index: 'price', sortable: false, width: 80},
@@ -427,7 +429,9 @@
             }
             var rowData = $("#jqGrid").jqGrid("getRowData", rowKey);
             var outputId = rowData.outputId;
-            var data = {"outputId": outputId};
+            var totalPrice = rowData.totalPrice;
+            var employeeId = rowData.employeeId;
+            var data = {"outputId": outputId, "totalPrice": totalPrice, "employeeId": employeeId};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
@@ -471,7 +475,8 @@
             }
             var rowData = $("#jqGridEmployee").jqGrid("getRowData", rowKey);
             var outputId = rowData.outputId;
-            var data = {"outputId": outputId};
+            var totalPrice = rowData.totalPrice;
+            var data = {"outputId": outputId, "totalPrice": totalPrice};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
