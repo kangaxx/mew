@@ -476,7 +476,8 @@
             var rowData = $("#jqGridEmployee").jqGrid("getRowData", rowKey);
             var outputId = rowData.outputId;
             var totalPrice = rowData.totalPrice;
-            var data = {"outputId": outputId, "totalPrice": totalPrice};
+            var employeeId = rowData.employeeId;
+            var data = {"outputId": outputId, "totalPrice": totalPrice, "employeeId": employeeId};
             $.ajax({
                 type: 'POST',//方法类型
                 dataType: "json",//预期服务器返回的数据类型
