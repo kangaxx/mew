@@ -49,8 +49,8 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/getEmployeeByEmployeeId")
-    public Employee getEmployeeByEmployeeId(@RequestBody Employee employee) {
-        return employeeService.selectEmployeeByEmployeeId(employee.getId());
+    public Result getEmployeeByEmployeeId(@RequestBody Employee employee) {
+        return ResultGenerator.genSuccessResult(employeeService.selectEmployeeByEmployeeId(employee.getId()));
     }
 
     @PostMapping(path = "/save")

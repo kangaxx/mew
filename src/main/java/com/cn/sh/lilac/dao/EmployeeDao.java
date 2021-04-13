@@ -14,7 +14,7 @@ import java.util.Map;
 
 public interface EmployeeDao {
     Employee getEmployeeByEmployeeName(@Param("employeeName") String employeeName);
-    Employee getEmployeeById(@Param("employeeId") Long employeeId);
+    Employee getEmployeeById(@Param("id") Long id);
     List<Employee> findEmployees(Map param);
     int getTotalEmployee(Map param);
     /**

@@ -136,7 +136,7 @@
                             </div>
 
                                 <label for="employeeIdSearch">姓名</label>
-                                <select id="employeeIdSearch" name="role"  title="请选择" style="">
+                                <select id="employeeIdSearch" name="role"  title="请选择" style="" onchange="selectOnEmpSearchChange(this)">
                                 </select>
                                 <label for="durationStart" class="control-label"> 日期:</label>
                                 <input type="text" class="datepicker" id="durationStart" placeholder="请选择日期" /> ~
@@ -144,7 +144,8 @@
                                 <button class="btn btn-info" onclick="outputSearch()">
                                     <i class="fa fa-search">查询</i>
                                 </button>
-
+                                <label for="employeeAccount">账户余额</label>
+                                <input type="text" id="employeeAccount" value="0.0" readonly />
                             <!-- 数据展示列表，id 为 jqGrid -->
                             <table id="jqGrid" class="table table-bordered">
                             </table>
@@ -530,6 +531,27 @@
                 }
             });
         })
+
+        /**
+        * 选择查询条件 - 领药人
+        **/
+        function selectOnEmpSearchChange(obj) {
+            // $("#employeeAccount").val(obj.options[obj.selectedIndex].value);
+            var data = {"id": obj.options[obj.selectedIndex].value};
+            $.ajax({
+                type: 'POST',//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: 'employees/getEmployeeByEmployeeId',//url
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (result) {
+                    $("#employeeAccount").val(result.data.account);
+                },
+                error: function () {
+                    alert("操作失败");
+                }
+            });
+        }
 
         /**
         * 选择领药人
