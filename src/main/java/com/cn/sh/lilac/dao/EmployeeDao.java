@@ -33,6 +33,12 @@ public interface EmployeeDao {
 
     /**
      * 修改账户数据
+     * 定期执行，每月一次，将员工账户余额account累加收入income
+     * @return
+     */
+    int updateEmployeeMonthly();
+    /**
+     * 修改账户数据
      *
      * @return
      */

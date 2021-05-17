@@ -52,7 +52,7 @@
         )
     </select>
     <select id="reckonDrugsByDuration" parameterType="Map"  resultMap="DrugResult">
-        select d.drug_id, d.drug_name, d.drug_trade_name, d.drug_no, d.drug_unit, d.drug_price, d.create_time,(i.input_num - ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)
+        select d.drug_id, d.drug_name, d.drug_trade_name, d.drug_no, d.drug_unit, i.price as drug_price, i.create_time,(i.input_num - ifnull((select sum(output_num) from tb_output o where o.input_id = i.input_id and o.is_deleted = 0 group by o.input_id),0)
         - ifnull((select sum(wastage_num) from tb_wastage w where w.input_id = i.input_id and w.is_deleted = 0 group by w.input_id),0)
         ) as reckon_num, i.duration
         from tb_drug as d

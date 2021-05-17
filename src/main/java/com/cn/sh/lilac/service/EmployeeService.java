@@ -37,6 +37,11 @@ public interface EmployeeService {
 
 
     /**
+     * 每月更新账户余额
+     */
+    int updateAccountMonthly();
+
+    /**
      * 根据姓名查询用户
      *
      * @param name

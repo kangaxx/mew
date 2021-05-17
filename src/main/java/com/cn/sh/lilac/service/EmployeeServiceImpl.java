@@ -83,6 +83,14 @@ public class EmployeeServiceImpl implements  EmployeeService{
     }
 
     /**
+     * 每月更新账户余额
+     */
+    @Override
+    public int updateAccountMonthly(){
+        return employeeDao.updateEmployeeMonthly();
+    }
+
+    /**
      * 停用员工
      *
      * @param employee
